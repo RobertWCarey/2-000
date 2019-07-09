@@ -10,8 +10,8 @@
 
 const int analogPin = A0;
 
-// interrupt frequency
-const float samplerate = 10000.0f;
+// interrupt frequency in Hz
+const float samplerate = 14000.0f;
 
 void setup() {
   // initialize timer1
@@ -25,9 +25,15 @@ void setup() {
   TIMSK1 |= (1 << OCIE1A); // enable timer compare interrupt
   interrupts(); // enable all interrupts
   DIR_PIN_HIGH;
+
+  Serial.begin(115200);
+
 }
 
 uint32_t wait = 0;
+static uint32_t steps = 0;
+static double distance = 0;
+static double revolutions = 0;
 int spd = 0xffff;
 int clk = 0;
 
@@ -35,17 +41,22 @@ int clk = 0;
 ISR(TIMER1_COMPA_vect)
 {
   // generate the next clock pulse on accumulator overflow
-  wait += spd;
-  if (wait >= 0xffff) {
+  // wait += spd;
+  // if (wait >= 0xffff) {
     if (clk) {
       STEP_PIN_HIGH;
     } else {
       STEP_PIN_LOW;
+      steps ++;
     }
-    wait -= 0x10000;
+    // wait -= 0x10000;
     clk = !clk;
-  }
+  // }
 }
+
+bool parseCommand(String com);
+
+String command;
 
 void loop() {
   // // read potentiometer and set direction
@@ -64,4 +75,45 @@ void loop() {
   // noInterrupts();
   // spd = poti * 10;
   // interrupts();
+  revolutions = steps/1600;
+  distance = revolutions*0.095;
+  Serial.print(distance);
+  Serial.println("um");
+
+  if (Serial.available())
+  {
+    char c = Serial.read();
+    if (c == '\n')
+    {
+      if (!parseCommand(command))
+      {
+        // Serial.println("Invalid Input");
+      }
+      command = "";
+    }
+    else
+    {
+      command += c;
+    }
+  }
+}
+
+bool parseCommand(String com)
+{
+  String part1,part2;
+  float val;
+  noInterrupts();
+  part1 = com.substring(0, com.indexOf(' '));
+  part2 = com.substring(com.indexOf(' ')+1);
+
+  if (part1.equalsIgnoreCase("Distance"))
+  {
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println("um");
+    interrupts();
+    return true;
+  }
+  interrupts();
+  return false;
 }
