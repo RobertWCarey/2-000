@@ -3,7 +3,8 @@
 const char *delimiters            = ", \n";                    //commands can be separated by return, space or comma
 const char *addCommandToken       = "add";                     //Modify here
 const char *subtractCommandToken  = "sub";                     //Modify here
-const char *distanceCmdToken       = "dist";
+const char *distanceCmdToken       = "Distance";
+const char *sleepCmdToken       = "Sleep";
 
 int readNumber ()
 {
@@ -36,6 +37,22 @@ int subtractCommand()
   return firstOperand - secondOperand;
 }
 
+bool sleepCommand()
+{
+  int firstOperand = readNumber();
+  if (firstOperand == 1)
+  {
+    SLEEP_PIN_HIGH;
+    return true;
+  }
+  else if (!firstOperand)
+  {
+    SLEEP_PIN_LOW;
+    return true;
+  }
+  return false;
+}
+
 void DoMyCommand(char * commandLine, double * distance)
 {
   //  print2("\nCommand: ", commandLine);
@@ -59,6 +76,14 @@ void DoMyCommand(char * commandLine, double * distance)
   {
     result = *distance;                                       //K&R string.h  pg. 251
     print2(">    The Distance travelled is = ", result);
+  }
+  else if (strcmp(ptrToCommandName, sleepCmdToken) == 0)
+  {
+    result = sleepCommand();
+    if (result)
+      Serial.println(">    The Sleep setting was set");
+    else
+      Serial.println(">    The Sleep setting was not set");
   }
   else
   {

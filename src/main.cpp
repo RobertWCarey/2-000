@@ -20,6 +20,10 @@ const int analogPin = A0;
 const float samplerate = 14000.0f;
 
 void setup() {
+
+  //Set data direction to OUTPUT
+  DDRD |= 0b00111000;
+
   // initialize timer1
   noInterrupts(); // disable all interrupts
   TCCR1A = 0;
@@ -49,6 +53,8 @@ ISR(TIMER1_COMPA_vect)
   // generate the next clock pulse on accumulator overflow
   // wait += spd;
   // if (wait >= 0xffff) {
+  if ( SLEEP_PIN_HIGH & PORTD )
+  {
     if (clk) {
       STEP_PIN_HIGH;
     } else {
@@ -57,6 +63,7 @@ ISR(TIMER1_COMPA_vect)
     }
     // wait -= 0x10000;
     clk = !clk;
+  }
   // }
 }
 
