@@ -6,6 +6,15 @@ const char *subtractCommandToken  = "sub";                     //Modify here
 const char *distanceCmdToken       = "Distance";
 const char *sleepCmdToken       = "Sleep";
 
+static int strcicmp(char const *a, char const *b)
+{
+    for (;; a++, b++) {
+        int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
+        if (d != 0 || !*a)
+            return d;
+    }
+}
+
 int readNumber ()
 {
   char * numTextPtr = strtok(NULL, delimiters);         //K&R string.h  pg. 250
@@ -77,7 +86,7 @@ void DoMyCommand(char * commandLine, double * distance)
     result = *distance;                                       //K&R string.h  pg. 251
     print2(">    The Distance travelled is = ", result);
   }
-  else if (strcmp(ptrToCommandName, sleepCmdToken) == 0)
+  else if (strcicmp(ptrToCommandName, sleepCmdToken) == 0)
   {
     result = sleepCommand();
     if (result)
