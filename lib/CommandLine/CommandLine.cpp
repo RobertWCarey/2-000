@@ -1,10 +1,9 @@
 #include "CommandLine.h"
 
-
 const char *delimiters            = ", \n";                    //commands can be separated by return, space or comma
 const char *addCommandToken       = "add";                     //Modify here
 const char *subtractCommandToken  = "sub";                     //Modify here
-const char *ditanceCmdToken       = "dist";
+const char *distanceCmdToken       = "dist";
 
 int readNumber ()
 {
@@ -37,16 +36,10 @@ int subtractCommand()
   return firstOperand - secondOperand;
 }
 
-int distanceCommand()
-{                                //Modify here
-  int distance = 1;
-  return distance;
-}
-
-void DoMyCommand(char * commandLine)
+void DoMyCommand(char * commandLine, double * distance)
 {
   //  print2("\nCommand: ", commandLine);
-  int result;
+  double result;
 
   char * ptrToCommandName = strtok(commandLine, delimiters);
   //  print2("commandName= ", ptrToCommandName);
@@ -62,9 +55,9 @@ void DoMyCommand(char * commandLine)
     result = subtractCommand();                                       //K&R string.h  pg. 251
     print2(">    The difference is = ", result);
   }
-  else if (strcmp(ptrToCommandName, ditanceCmdToken) == 0)
+  else if (strcmp(ptrToCommandName, distanceCmdToken) == 0)
   {
-    result = distanceCommand();                                       //K&R string.h  pg. 251
+    result = *distance;                                       //K&R string.h  pg. 251
     print2(">    The Distance travelled is = ", result);
   }
   else

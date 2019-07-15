@@ -16,7 +16,6 @@
 
 #define COMMAND_BUFFER_LENGTH        25                        //length of serial buffer for incoming commands
 
-
 int readNumber ();
 
 char * readWord();
@@ -27,9 +26,7 @@ int addCommand();
 
 int subtractCommand();
 
-int distanceCommand();
-
-void DoMyCommand(char * commandLine);
+void DoMyCommand(char * commandLine, double * distance);
 
 bool getCommandLineFromSerialPort(char * commandLine);
 
