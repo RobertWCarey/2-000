@@ -53,7 +53,7 @@ ISR(TIMER1_COMPA_vect)
   // generate the next clock pulse on accumulator overflow
   // wait += spd;
   // if (wait >= 0xffff) {
-  if ( SLEEP_PIN_HIGH & PORTD )
+  if ( 0b00100000 & PORTD )
   {
     if (clk) {
       STEP_PIN_HIGH;
