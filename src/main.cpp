@@ -4,11 +4,19 @@
 #include "CommandLine.h"
 // #include "add.h"
 
-#define DIR_PIN_HIGH PORTD |= 0b00001000
-#define DIR_PIN_LOW PORTD &= 0b11110111
 
-#define STEP_PIN_HIGH PORTD |= 0b00010000
-#define STEP_PIN_LOW PORTD &= 0b11101111
+#define DIR_PIN_HIGH PORTD |= 1 << PORTD2
+#define DIR_PIN_LOW PORTD &= ~(1 << PORTD2)
+
+#define STEP_PIN_HIGH PORTD |= 1 << PORTD3
+#define STEP_PIN_LOW PORTD &= ~(1 << PORTD3)
+
+#define M0_HIGH PORTD |= 1 << PORTD5
+#define M0_LOW PORTD &= ~(1 << PORTD5)
+
+#define M1_HIGH PORTD |= 1 << PORTD6
+#define M1_LOW PORTD &= ~(1 << PORTD6)
+
 
 char   CommandLine[COMMAND_BUFFER_LENGTH + 1];                 //Read commands into this buffer from Serial.  +1 in length for a termination char
 
@@ -17,12 +25,12 @@ double distance = 0;
 const int analogPin = A0;
 
 // interrupt frequency in Hz ie 2x number of steps
-const float samplerate = 14000.0f;
+const float samplerate = 10000.0f;
 
 void setup() {
 
   //Set data direction to OUTPUT
-  DDRD |= 0b00111000;
+  DDRD |= 0b01111100;
 
   // initialize timer1
   noInterrupts(); // disable all interrupts
@@ -35,8 +43,12 @@ void setup() {
   TIMSK1 |= (1 << OCIE1A); // enable timer compare interrupt
   interrupts(); // enable all interrupts
   DIR_PIN_HIGH;
+  M0_HIGH;
+  M1_LOW;
 
   Serial.begin(115200);
+  uint8_t temp = ~(1 << PORTD2);
+  Serial.println(temp);
 
 }
 
@@ -53,7 +65,7 @@ ISR(TIMER1_COMPA_vect)
   // generate the next clock pulse on accumulator overflow
   // wait += spd;
   // if (wait >= 0xffff) {
-  if ( 0b00100000 & PORTD )
+  if ( (1 << PORTD4) & PORTD )
   {
     if (clk) {
       STEP_PIN_HIGH;
