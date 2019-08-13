@@ -6,6 +6,7 @@
 #include "Arduino.h"
 
 #define print2(x,y) (Serial.print(x), Serial.println(y))
+#define print3(x,y,z) (Serial.print(x), Serial.print(y), Serial.println(z))
 
 
 #define CR '\r'
@@ -16,8 +17,8 @@
 
 #define COMMAND_BUFFER_LENGTH        25                        //length of serial buffer for incoming commands
 
-#define SLEEP_PIN_HIGH PORTD |= 0b00100000
-#define SLEEP_PIN_LOW PORTD &= 0b11011111
+#define SLEEP_PIN_HIGH PORTD |= 1 << PORTD4
+#define SLEEP_PIN_LOW PORTD &= ~(1 << PORTD4)
 
 int readNumber ();
 

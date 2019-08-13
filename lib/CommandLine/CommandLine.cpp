@@ -81,10 +81,10 @@ void DoMyCommand(char * commandLine, double * distance)
     result = subtractCommand();                                       //K&R string.h  pg. 251
     print2(">    The difference is = ", result);
   }
-  else if (strcmp(ptrToCommandName, distanceCmdToken) == 0)
+  else if (strcicmp(ptrToCommandName, distanceCmdToken) == 0)
   {
     result = *distance;                                       //K&R string.h  pg. 251
-    print2(">    The Distance travelled is = ", result);
+    print3(">    The Distance travelled is = ", result, " um");
   }
   else if (strcicmp(ptrToCommandName, sleepCmdToken) == 0)
   {
