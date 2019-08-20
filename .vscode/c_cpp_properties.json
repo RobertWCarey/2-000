@@ -8,10 +8,10 @@
             "includePath": [
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
+                "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/HotStepper",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/DRV8834",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicStepperDriver",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/CommandLine",
-                "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/HotStepper",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/cores/arduino",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/variants/eightanaloginputs",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src",
@@ -28,10 +28,10 @@
                 "path": [
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
+                    "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/HotStepper",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/DRV8834",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicStepperDriver",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/CommandLine",
-                    "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/HotStepper",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/cores/arduino",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/variants/eightanaloginputs",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src",
