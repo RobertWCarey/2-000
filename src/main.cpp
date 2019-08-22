@@ -1,28 +1,14 @@
 #include "Arduino.h"
+#include "pinDef.h" // Call after Arduino.h
 #include "CommandLine.h"
 
-// DRV8834 pins definitions
-static const uint8_t DIR_PIN = 1 << PORTD2;
-static const uint8_t STEP_PIN = 1 << PORTD3;
-static const uint8_t M0_PIN = 1 << PORTD5;
-static const uint8_t M1_PIN = 1 << PORTD6;
-
-// Define commands for setting DRV8834 pins
-#define DIR_PIN_HIGH PORTD |= DIR_PIN
-#define DIR_PIN_LOW PORTD &= ~DIR_PIN
-#define STEP_PIN_HIGH PORTD |= STEP_PIN
-#define STEP_PIN_LOW PORTD &= ~STEP_PIN
-#define M0_HIGH PORTD |= M0_PIN
-#define M0_LOW PORTD &= ~M0_PIN
-#define M1_HIGH PORTD |= M1_PIN
-#define M1_LOW PORTD &= ~M1_PIN
-
-char CommandLine[COMMAND_BUFFER_LENGTH + 1]; //Read commands into this buffer from Serial.  +1 in length for a termination char
-
-double distance = 0;
+// UART Baud rate
+static const uint32_t BAUD_RATE = 115200;
 
 // interrupt frequency in Hz ie 2x number of steps
 const float samplerate = 10000.0f;
+
+CmdInterface cmdInterface;
 
 void setup()
 {
@@ -44,9 +30,8 @@ void setup()
   M0_HIGH;
   M1_LOW;
 
-  Serial.begin(115200);
-  uint8_t temp = ~(1 << PORTD2);
-  Serial.println(temp);
+  // Start Serial Port
+  Serial.begin(BAUD_RATE);
 }
 
 uint32_t wait = 0;
@@ -59,9 +44,6 @@ int clk = 0;
 // timer 1 interrupt
 ISR(TIMER1_COMPA_vect)
 {
-  // generate the next clock pulse on accumulator overflow
-  // wait += spd;
-  // if (wait >= 0xffff) {
   if ((1 << PORTD4) & PORTD)
   {
     if (clk)
@@ -79,16 +61,10 @@ ISR(TIMER1_COMPA_vect)
   // }
 }
 
-bool parseCommand(String com);
-
-String command;
-
 void loop()
 {
   revolutions = steps / 1600;
-  distance = revolutions * 0.095;
+  // distance = revolutions * 0.095;
 
-  bool received = getCommandLineFromSerialPort(CommandLine); //global CommandLine is defined in CommandLine.h
-  if (received)
-    DoMyCommand(CommandLine, &distance);
+  cmdInterface.getCommandLineFromSerialPort(); //global CommandLine is defined in CommandLine.h
 }

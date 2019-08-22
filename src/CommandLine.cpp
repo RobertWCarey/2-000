@@ -1,49 +1,37 @@
+/** \addtogroup CmdProt_module Command Protocol module documentation
+ * @{
+ */
 #include "CommandLine.h"
 
-const char *delimiters            = ", \n";                    //commands can be separated by return, space or comma
-const char *addCommandToken       = "add";                     //Modify here
-const char *subtractCommandToken  = "sub";                     //Modify here
-const char *distanceCmdToken       = "Distance";
-const char *sleepCmdToken       = "Sleep";
+const char *delimiters = ", \n"; // commands can be separated by return, space or comma
+const char *distanceCmdToken = "Distance";
+const char *sleepCmdToken = "Sleep";
 
 static int strcicmp(char const *a, char const *b)
 {
-    for (;; a++, b++) {
-        int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
-        if (d != 0 || !*a)
-            return d;
-    }
+  for (;; a++, b++)
+  {
+    int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
+    if (d != 0 || !*a)
+      return d;
+  }
 }
 
-int readNumber ()
+int readNumber()
 {
-  char * numTextPtr = strtok(NULL, delimiters);         //K&R string.h  pg. 250
-  return atoi(numTextPtr);                              //K&R string.h  pg. 251
+  char *numTextPtr = strtok(NULL, delimiters); //K&R string.h  pg. 250
+  return atoi(numTextPtr);                     //K&R string.h  pg. 251
 }
 
-char * readWord()
+char *readWord()
 {
-  char * word = strtok(NULL, delimiters);               //K&R string.h  pg. 250
+  char *word = strtok(NULL, delimiters); //K&R string.h  pg. 250
   return word;
 }
 
-void nullCommand(char * ptrToCommandName)
+void nullCommand(char *ptrToCommandName)
 {
-  print2("Command not found: ", ptrToCommandName);      //see above for macro print2
-}
-
-int addCommand()
-{                                      //Modify here
-  int firstOperand = readNumber();
-  int secondOperand = readNumber();
-  return firstOperand + secondOperand;
-}
-
-int subtractCommand()
-{                                //Modify here
-  int firstOperand = readNumber();
-  int secondOperand = readNumber();
-  return firstOperand - secondOperand;
+  print2("Command not found: ", ptrToCommandName); //see above for macro print2
 }
 
 bool sleepCommand()
@@ -62,28 +50,28 @@ bool sleepCommand()
   return false;
 }
 
-void DoMyCommand(char * commandLine, double * distance)
+void CmdInterface::printStrings(const String *strings, int numStrings)
+{
+  String string;
+  for (int i = 0; i < numStrings - 1; i++)
+  {
+    string = *strings;
+    Serial.print(string);
+    strings++;
+  }
+}
+
+void CmdInterface::doMyCommand()
 {
   //  print2("\nCommand: ", commandLine);
   double result;
 
-  char * ptrToCommandName = strtok(commandLine, delimiters);
+  char *ptrToCommandName = strtok(CommandLine, delimiters);
   //  print2("commandName= ", ptrToCommandName);
 
-  if (strcmp(ptrToCommandName, addCommandToken) == 0)
-  {                   //Modify here
-    result = addCommand();
-    print2(">    The sum is = ", result);
-
-  }
-  else if (strcmp(ptrToCommandName, subtractCommandToken) == 0)
+  if (strcicmp(ptrToCommandName, distanceCmdToken) == 0)
   {
-    result = subtractCommand();                                       //K&R string.h  pg. 251
-    print2(">    The difference is = ", result);
-  }
-  else if (strcicmp(ptrToCommandName, distanceCmdToken) == 0)
-  {
-    result = *distance;                                       //K&R string.h  pg. 251
+    result = distance; //K&R string.h  pg. 251
     print3(">    The Distance travelled is = ", result, " um");
   }
   else if (strcicmp(ptrToCommandName, sleepCmdToken) == 0)
@@ -100,36 +88,47 @@ void DoMyCommand(char * commandLine, double * distance)
   }
 }
 
-bool getCommandLineFromSerialPort(char * commandLine)
+void CmdInterface::getCommandLineFromSerialPort()
 {
-  static uint8_t charsRead = 0;                      //note: COMAND_BUFFER_LENGTH must be less than 255 chars long
+  static uint8_t charsRead = 0; //note: COMAND_BUFFER_LENGTH must be less than 255 chars long
   //read asynchronously until full command input
-  while (Serial.available()) {
+  while (Serial.available())
+  {
     char c = Serial.read();
-    switch (c) {
-      case CR:      //likely have full command in buffer now, commands are terminated by CR and/or LS
-      case LF:
-        commandLine[charsRead] = NULLCHAR;       //null terminate our command char array
-        if (charsRead > 0)  {
-          charsRead = 0;                           //charsRead is static, so have to reset
-          Serial.println(commandLine);
-          return true;
-        }
-        break;
-      case BS:                                    // handle backspace in input: put a space in last char
-        if (charsRead > 0) {                        //and adjust commandLine and charsRead
-          commandLine[--charsRead] = NULLCHAR;
-          Serial << byte(BS) << byte(SPACE) << byte(BS);  //no idea how this works, found it on the Internet
-        }
-        break;
-      default:
-        // c = tolower(c);
-        if (charsRead < COMMAND_BUFFER_LENGTH) {
-          commandLine[charsRead++] = c;
-        }
-        commandLine[charsRead] = NULLCHAR;     //just in case
-        break;
+    switch (c)
+    {
+    case CR: // Commands are terminated by CR and/or LS
+    case LF:
+      CommandLine[charsRead] = NULLCHAR; //null terminate our command char array
+      if (charsRead > 0)
+      {
+        charsRead = 0; //charsRead is static, so have to reset
+        Serial.println();
+        doMyCommand();
+      }
+      break;
+    case BS: // handle backspace in input: put a space in last char
+      if (charsRead > 0)
+      { //and adjust CommandLine and charsRead
+        CommandLine[--charsRead] = NULLCHAR;
+        Serial.print(BS);
+        Serial.print(' '); // Char in Terminal is overridden with a space
+        Serial.print(BS);
+      }
+      break;
+    default:
+      Serial.print(c);
+      c = tolower(c);
+      if (charsRead < COMMAND_BUFFER_LENGTH)
+      {
+        // Adds character to array and then increments charsRead
+        CommandLine[charsRead++] = c;
+      }
+      // Clear next position in array for safety
+      CommandLine[charsRead] = NULLCHAR;
+      break;
     }
   }
-  return false;
 }
+
+/** @} */
