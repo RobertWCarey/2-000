@@ -1,0 +1,39 @@
+An interrupt-\/driven stepper motor driver for Arduino.
+
+This library has been designed with efficiency in mind and so has the requirement that your stepper pins are all on one port and consecutive. This means that you can set all pins in one operation, rather than having to toggle individual pins. It is interrupt-\/driven, which means that once you tell it to move a number of steps, it will continue to do this in the background using interrupts for timing. You can use the \char`\"{}ready()\char`\"{} function to check when you should give it more commands. It will currently drive 3 steppers, one per port (although if you don\textquotesingle{}t want serial comms you can drive 4 in total) and at the moment it will use the same speed for all of them.\hypertarget{md_lib__hot_stepper__r_e_a_d_m_e_autotoc_md0}{}\doxysection{Example}\label{md_lib__hot_stepper__r_e_a_d_m_e_autotoc_md0}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Include the library}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <HotStepper.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Instatiate some stepper motors}}
+\DoxyCodeLine{\mbox{\hyperlink{class_hot_stepper}{HotStepper}} stepper1(\&PORTC, 0);}
+\DoxyCodeLine{\mbox{\hyperlink{class_hot_stepper}{HotStepper}} stepper2(\&PORTD, 4);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{byte} dir1;}
+\DoxyCodeLine{\textcolor{keywordtype}{byte} dir2;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} setup()\{}
+\DoxyCodeLine{  dir1 = FORWARD;}
+\DoxyCodeLine{  dir2 = FORWARD;}
+\DoxyCodeLine{  \textcolor{comment}{// Make sure the ports and timer are configured}}
+\DoxyCodeLine{  HotStepper::setup();}
+\DoxyCodeLine{  \textcolor{comment}{// Control our steppers}}
+\DoxyCodeLine{  stepper1.turn(10, dir1);}
+\DoxyCodeLine{  stepper2.turn(20, dir2);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} loop()\{}
+\DoxyCodeLine{  \textcolor{comment}{// ready will return true when the stepper has moved the desired number of steps}}
+\DoxyCodeLine{  \textcolor{keywordflow}{if}(stepper1.ready())\{}
+\DoxyCodeLine{    dir1 = !dir1;}
+\DoxyCodeLine{    stepper1.turn(10, dir1);}
+\DoxyCodeLine{  \}}
+\DoxyCodeLine{  \textcolor{keywordflow}{if}(stepper2.ready())\{}
+\DoxyCodeLine{    dir2 = !dir2;}
+\DoxyCodeLine{    stepper2.turn(20, dir2);}
+\DoxyCodeLine{  \}}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+ 
