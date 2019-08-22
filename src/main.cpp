@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "pinDef.h" // Call after Arduino.h
-#include "CommandLine.h"
+#include "CmdInterface.h"
 
 // UART Baud rate
 static const uint32_t BAUD_RATE = 115200;

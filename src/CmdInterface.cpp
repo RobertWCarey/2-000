@@ -1,13 +1,9 @@
 /** \addtogroup CmdProt_module Command Protocol module documentation
  * @{
  */
-#include "CommandLine.h"
+#include "CmdInterface.h"
 
-const char *delimiters = ", \n"; // commands can be separated by return, space or comma
-const char *distanceCmdToken = "Distance";
-const char *sleepCmdToken = "Sleep";
-
-static int strcicmp(char const *a, char const *b)
+int CmdInterface::strcicmp(char const *a, char const *b)
 {
   for (;; a++, b++)
   {
@@ -17,24 +13,25 @@ static int strcicmp(char const *a, char const *b)
   }
 }
 
-int readNumber()
+int CmdInterface::readNumber()
 {
   char *numTextPtr = strtok(NULL, delimiters); //K&R string.h  pg. 250
   return atoi(numTextPtr);                     //K&R string.h  pg. 251
 }
 
-char *readWord()
+char *CmdInterface::readWord()
 {
   char *word = strtok(NULL, delimiters); //K&R string.h  pg. 250
   return word;
 }
 
-void nullCommand(char *ptrToCommandName)
+void CmdInterface::nullCommand(char *ptrToCommandName)
 {
-  print2("Command not found: ", ptrToCommandName); //see above for macro print2
+  Serial.print("Command not found: ");
+  Serial.println(ptrToCommandName);
 }
 
-bool sleepCommand()
+bool CmdInterface::sleepCommand()
 {
   int firstOperand = readNumber();
   if (firstOperand == 1)
@@ -50,17 +47,6 @@ bool sleepCommand()
   return false;
 }
 
-void CmdInterface::printStrings(const String *strings, int numStrings)
-{
-  String string;
-  for (int i = 0; i < numStrings - 1; i++)
-  {
-    string = *strings;
-    Serial.print(string);
-    strings++;
-  }
-}
-
 void CmdInterface::doMyCommand()
 {
   //  print2("\nCommand: ", commandLine);
@@ -71,13 +57,13 @@ void CmdInterface::doMyCommand()
 
   if (strcicmp(ptrToCommandName, distanceCmdToken) == 0)
   {
-    result = distance; //K&R string.h  pg. 251
-    print3(">    The Distance travelled is = ", result, " um");
+    Serial.print(">    The Distance travelled is = ");
+    Serial.print(result);
+    Serial.println(" um");
   }
   else if (strcicmp(ptrToCommandName, sleepCmdToken) == 0)
   {
-    result = sleepCommand();
-    if (result)
+    if (sleepCommand())
       Serial.println(">    The Sleep setting was set");
     else
       Serial.println(">    The Sleep setting was not set");

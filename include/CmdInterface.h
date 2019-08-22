@@ -13,46 +13,30 @@
 #define SPACE ' '
 #define COMMAND_BUFFER_LENGTH 25 //length of serial buffer for incoming commands
 
-#define print2(x, y) (Serial.print(x), Serial.println(y))
-#define print3(x, y, z) (Serial.print(x), Serial.print(y), Serial.println(z))
-
 class CmdInterface
 {
   char CommandLine[COMMAND_BUFFER_LENGTH + 1]; //Read commands into this buffer from Serial.  +1 in length for a termination char
   double distance = 0;
+  const char *delimiters = ", \n"; // commands can be separated by return, space or comma
+  const char *distanceCmdToken = "Distance";
+  const char *sleepCmdToken = "Sleep";
 
 private:
   void doMyCommand();
-  void printStrings(const String *strings, int numStrings);
+  bool sleepCommand();
+  char *readWord();
+  int readNumber();
+  int strcicmp(char const *a, char const *b);
+  void nullCommand(char *ptrToCommandName);
 
 public:
   void getCommandLineFromSerialPort();
 };
 
-int readNumber();
-
 /**
  * @brief 
  * 
  * @return char* 
- */
-char *readWord();
-
-void nullCommand(char *ptrToCommandName);
-
-/**
- * @brief Excutes the command to turn the stepper contoller sleep pin high/low
- * 
- * @return true 
- * @return false 
- */
-bool sleepCommand();
-
-/**
- * @brief Parses command 
- * 
- * @param commandLine 
- * @param distance 
  */
 
 #endif // cmdInterface_h
