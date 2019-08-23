@@ -16,6 +16,7 @@ private:
   double currDistance;
   double targetDistance;
   bool stepStatus = 0;
+  unsigned long startTime;
 
 public:
   // All pins have to be on PORTD

@@ -48,8 +48,8 @@ double Stepper::getDistance()
 
 double Stepper::getRunTime()
 {
-
-  return 1.0;
+  unsigned long currentMillis = startTime - millis();
+  return (double)currentMillis / 100;
 }
 
 bool Stepper::setTargetDistance(double distance)
