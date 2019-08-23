@@ -23,4 +23,4 @@ static const uint8_t M1_PIN = 1 << PORTD6;
 #define M1_HIGH PORTD |= M1_PIN
 #define M1_LOW PORTD &= ~M1_PIN
 
-#endif
+#endif // pinDef_h

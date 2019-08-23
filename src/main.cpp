@@ -1,34 +1,30 @@
 #include "Arduino.h"
 #include "pinDef.h" // Call after Arduino.h
 #include "CmdInterface.h"
+#include "Stepper.h"
 
 // UART Baud rate
 static const uint32_t BAUD_RATE = 115200;
 
 // interrupt frequency in Hz ie 2x number of steps
-const float samplerate = 10000.0f;
+const float sampleRate = 10000.0f;
 
 CmdInterface cmdInterface;
+
+Stepper drv8834;
 
 void setup()
 {
 
-  //Set data direction to OUTPUT
-  DDRD |= 0b01111100;
+  drv8834.dirPin = DIR_PIN;
+  drv8834.stepPin = STEP_PIN;
+  drv8834.sleepPin = SLEEP_PIN;
+  drv8834.m0Pin = M0_PIN;
+  drv8834.m1Pin = M1_PIN;
+  drv8834.port = 3;
+  drv8834.microStep = 16;
 
-  // initialize timer1
-  noInterrupts(); // disable all interrupts
-  TCCR1A = 0;
-  TCCR1B = 0;
-  TCNT1 = 0;
-  OCR1A = 16000000.0f / samplerate; // compare match register for IRQ with selected samplerate
-  TCCR1B |= (1 << WGM12);           // CTC mode
-  TCCR1B |= (1 << CS10);            // no prescaler
-  TIMSK1 |= (1 << OCIE1A);          // enable timer compare interrupt
-  interrupts();                     // enable all interrupts
-  DIR_PIN_HIGH;
-  M0_HIGH;
-  M1_LOW;
+  drv8834.init(sampleRate);
 
   // Start Serial Port
   Serial.begin(BAUD_RATE);
