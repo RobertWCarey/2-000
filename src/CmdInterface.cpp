@@ -49,28 +49,45 @@ bool CmdInterface::sleepCommand()
 
 void CmdInterface::doMyCommand()
 {
-  //  print2("\nCommand: ", commandLine);
-  double result;
-
   char *ptrToCommandName = strtok(CommandLine, delimiters);
-  //  print2("commandName= ", ptrToCommandName);
 
-  if (strcicmp(ptrToCommandName, distanceCmdToken) == 0)
-  {
-    Serial.print(">    The Distance travelled is = ");
-    Serial.print(result);
-    Serial.println(" um");
-  }
-  else if (strcicmp(ptrToCommandName, sleepCmdToken) == 0)
+  if (!strcicmp(ptrToCommandName, sleepCmd.cmd))
   {
     if (sleepCommand())
       Serial.println(">    The Sleep setting was set");
     else
       Serial.println(">    The Sleep setting was not set");
   }
+  else if (!strcicmp(ptrToCommandName, helpCmd.cmd))
+  {
+    Serial.println("Commands:");
+    printHelpCmd(sleepCmd.cmd, sleepCmd.description, sleepCmd.params);
+  }
   else
   {
     nullCommand(ptrToCommandName);
+  }
+}
+
+void CmdInterface::printHelpCmd(char const *cmd, String description, const String paramters[])
+{
+  int numParams = sizeof(paramters);
+
+  Serial.print("  ");
+  Serial.print("'");
+  Serial.print(cmd);
+  Serial.print("'");
+  Serial.print("  ");
+  Serial.println(description);
+
+  if (paramters[0] != "NULL")
+  {
+    Serial.println("    Params:");
+    for (int i = 0; i < numParams; i++)
+    {
+      Serial.print("      ");
+      Serial.println(paramters[i]);
+    }
   }
 }
 
