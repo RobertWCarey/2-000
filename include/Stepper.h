@@ -22,13 +22,14 @@ public:
   uint8_t m0Pin;
   uint8_t m1Pin;
   uint8_t port;
-  uint8_t microStep = 0;
+  uint8_t microStep;
+  uint8_t direction;
   bool init(float sampleRate);
   double getRevolutions();
   double getDistance();
   double getRunTime();
   bool setTargetDistance();
-  bool setMicroSteps();
+  bool setMicroSteps(uint8_t microSteps);
   bool setDir();
 };
 

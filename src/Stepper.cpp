@@ -57,8 +57,30 @@ bool Stepper::setTargetDistance()
   return false;
 }
 
-bool Stepper::setMicroSteps()
+bool Stepper::setMicroSteps(uint8_t microSteps)
 {
+  switch (microSteps)
+  {
+  case 1:
+    portAddrs |= ~m0Pin | ~m1Pin;
+    break;
 
-  return false;
+  case 2:
+    portAddrs |= m0Pin | ~m1Pin;
+    break;
+
+  case 8:
+    portAddrs |= ~m0Pin | m1Pin;
+    break;
+
+  case 16:
+    portAddrs |= m0Pin | m1Pin;
+    break;
+
+  default:
+    return false;
+    break;
+  }
+
+  return true;
 }

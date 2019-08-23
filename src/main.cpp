@@ -23,6 +23,7 @@ void setup()
   drv8834.m1Pin = M1_PIN;
   drv8834.port = 3;
   drv8834.microStep = 16;
+  drv8834.direction = 1;
 
   drv8834.init(sampleRate);
 
