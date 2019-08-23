@@ -13,12 +13,10 @@ private:
   uint32_t targetSteps;
   double currDistance;
   double targetDistance;
-  uint8_t portAddrs;
-  uint8_t dataDirAddrs;
-  bool stepStatus;
+  bool stepStatus = 0;
 
 public:
-  // All pins should be on the same port
+  // All pins have to be on PORTD
   uint8_t dirPin;
   uint8_t stepPin;
   uint8_t sleepPin;

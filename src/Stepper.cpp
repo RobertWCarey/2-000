@@ -2,19 +2,8 @@
 
 bool Stepper::init(float sampleRate)
 {
-  switch (port)
-  {
-  case 3:
-    portAddrs = PORTD;
-    dataDirAddrs = DDRD;
-    break;
-
-  default:
-    break;
-  }
-
   //Set data direction to OUTPUT
-  dataDirAddrs |= dirPin | stepPin | sleepPin | m0Pin | m1Pin;
+  DDRD |= dirPin | stepPin | sleepPin | m0Pin | m1Pin;
 
   // initialize timer1
   noInterrupts(); // disable all interrupts
@@ -32,16 +21,17 @@ bool Stepper::init(float sampleRate)
 
 void Stepper::step()
 {
-  if (sleepPin & portAddrs)
+  if (sleepPin & PORTD)
   {
     if (stepStatus)
     {
-      portAddrs |= stepPin;
+      PORTD |= stepPin;
     }
     else
     {
-      portAddrs |= ~stepPin;
+      PORTD &= ~stepPin;
       currSteps++;
+      // Serial.println(stepPin);
     }
     stepStatus = !stepStatus;
   }
@@ -76,19 +66,19 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
   switch (microSteps)
   {
   case 1:
-    portAddrs |= ~m0Pin | ~m1Pin;
+    PORTD |= ~m0Pin | ~m1Pin;
     break;
 
   case 2:
-    portAddrs |= m0Pin | ~m1Pin;
+    PORTD |= m0Pin | ~m1Pin;
     break;
 
   case 8:
-    portAddrs |= ~m0Pin | m1Pin;
+    PORTD |= ~m0Pin | m1Pin;
     break;
 
   case 16:
-    portAddrs |= m0Pin | m1Pin;
+    PORTD |= m0Pin | m1Pin;
     break;
 
   default:
@@ -102,9 +92,9 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
 bool Stepper::setDirection(bool dir)
 {
   if (dir)
-    portAddrs |= dirPin;
+    PORTD |= dirPin;
   else
-    portAddrs |= ~dirPin;
+    PORTD |= ~dirPin;
 
   return true;
 }

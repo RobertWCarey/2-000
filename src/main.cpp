@@ -4,10 +4,10 @@
 #include "Stepper.h"
 
 // UART Baud rate
-static const uint32_t BAUD_RATE = 115200;
+static const uint32_t BAUD_RATE = 9600;
 
 // interrupt frequency in Hz ie 2x number of steps
-const float sampleRate = 10000.0f;
+const float sampleRate = 400.0f;
 
 CmdInterface cmdInterface;
 
@@ -21,14 +21,18 @@ void setup()
   drv8834.sleepPin = SLEEP_PIN;
   drv8834.m0Pin = M0_PIN;
   drv8834.m1Pin = M1_PIN;
-  drv8834.port = 3;
   drv8834.microStep = 16;
   drv8834.direction = 1;
 
   drv8834.init(sampleRate);
+  DDRB |= (1 << PORTB5);
+  PORTB |= (1 << PORTB5);
 
   // Start Serial Port
   Serial.begin(BAUD_RATE);
+
+  Serial.println(drv8834.stepPin);
+  Serial.println(DDRD);
 }
 
 int spd = 0xffff;
