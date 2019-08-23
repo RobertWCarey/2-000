@@ -31,36 +31,18 @@ void setup()
   Serial.begin(BAUD_RATE);
 }
 
-uint32_t wait = 0;
-static uint32_t steps = 0;
-
-static double revolutions = 0;
 int spd = 0xffff;
 int clk = 0;
 
 // timer 1 interrupt
 ISR(TIMER1_COMPA_vect)
 {
-  if ((1 << PORTD4) & PORTD)
-  {
-    if (clk)
-    {
-      STEP_PIN_HIGH;
-    }
-    else
-    {
-      STEP_PIN_LOW;
-      steps++;
-    }
-    // wait -= 0x10000;
-    clk = !clk;
-  }
-  // }
+  drv8834.step();
 }
 
 void loop()
 {
-  revolutions = steps / 1600;
+  // revolutions = steps / 1600;
   // distance = revolutions * 0.095;
 
   cmdInterface.getCommandLineFromSerialPort(); //global CommandLine is defined in CommandLine.h

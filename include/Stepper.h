@@ -9,9 +9,13 @@ class Stepper
 {
 
 private:
-  uint8_t steps = 0;
+  uint32_t currSteps = 0;
+  uint32_t targetSteps;
+  double currDistance;
+  double targetDistance;
   uint8_t portAddrs;
   uint8_t dataDirAddrs;
+  bool stepStatus;
 
 public:
   // All pins should be on the same port
@@ -23,6 +27,7 @@ public:
   uint8_t port;
   uint8_t microStep;
   bool direction;
+  void step();
   bool init(float sampleRate);
   double getRevolutions();
   double getDistance();

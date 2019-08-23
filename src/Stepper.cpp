@@ -27,10 +27,24 @@ bool Stepper::init(float sampleRate)
   TIMSK1 |= (1 << OCIE1A);          // enable timer compare interrupt
   interrupts();                     // enable all interrupts
 
-  setMicroSteps(microStep);
-  setDirection(direction);
+  return setMicroSteps(microStep) && setDirection(direction);
+}
 
-  return true;
+void Stepper::step()
+{
+  if (sleepPin & portAddrs)
+  {
+    if (stepStatus)
+    {
+      portAddrs |= stepPin;
+    }
+    else
+    {
+      portAddrs |= ~stepPin;
+      currSteps++;
+    }
+    stepStatus = !stepStatus;
+  }
 }
 
 double Stepper::getRevolutions()
@@ -91,4 +105,6 @@ bool Stepper::setDirection(bool dir)
     portAddrs |= dirPin;
   else
     portAddrs |= ~dirPin;
+
+  return true;
 }
