@@ -27,8 +27,8 @@ bool Stepper::init(float sampleRate)
   TIMSK1 |= (1 << OCIE1A);          // enable timer compare interrupt
   interrupts();                     // enable all interrupts
 
-  // Default full step
-  portAddrs |= dirPin | ~m0Pin | ~m1Pin;
+  setMicroSteps(microStep);
+  setDirection(direction);
 
   return true;
 }
@@ -83,4 +83,12 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
   }
 
   return true;
+}
+
+bool Stepper::setDirection(bool dir)
+{
+  if (dir)
+    portAddrs |= dirPin;
+  else
+    portAddrs |= ~dirPin;
 }

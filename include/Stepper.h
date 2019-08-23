@@ -10,7 +10,6 @@ class Stepper
 
 private:
   uint8_t steps = 0;
-
   uint8_t portAddrs;
   uint8_t dataDirAddrs;
 
@@ -23,14 +22,14 @@ public:
   uint8_t m1Pin;
   uint8_t port;
   uint8_t microStep;
-  uint8_t direction;
+  bool direction;
   bool init(float sampleRate);
   double getRevolutions();
   double getDistance();
   double getRunTime();
   bool setTargetDistance();
   bool setMicroSteps(uint8_t microSteps);
-  bool setDir();
+  bool setDirection(bool dir);
 };
 
 #endif // stepper_h
