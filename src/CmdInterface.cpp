@@ -3,6 +3,12 @@
  */
 #include "CmdInterface.h"
 
+bool CmdInterface::init(const Stepper *stepper)
+{
+  cmdStepper = stepper;
+  return true;
+}
+
 int CmdInterface::strcicmp(char const *a, char const *b)
 {
   for (;; a++, b++)

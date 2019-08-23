@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "Arduino.h"
 #include "pinDef.h" // Call after Arduino.h
+#include "Stepper.h"
 
 #define CR '\r'
 #define LF '\n'
@@ -29,6 +30,7 @@ static const char *delimiters = ", \n"; // commands can be separated by return, 
 class CmdInterface
 {
   char CommandLine[COMMAND_BUFFER_LENGTH + 1]; //Read commands into this buffer from Serial.  +1 in length for a termination char
+  const Stepper *cmdStepper;
 
 private:
   void doMyCommand();
@@ -40,6 +42,7 @@ private:
   void printHelpCmd(char const *cmd, String description, const String paramters[]);
 
 public:
+  bool init(const Stepper *stepper);
   void getCommandLineFromSerialPort();
 };
 

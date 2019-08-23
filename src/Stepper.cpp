@@ -21,7 +21,7 @@ bool Stepper::init(float sampleRate)
 
 void Stepper::step()
 {
-  if (sleepPin & PORTD)
+  if ((sleepPin & PORTD) && (targetSteps - currSteps))
   {
     if (stepStatus)
     {
@@ -31,7 +31,6 @@ void Stepper::step()
     {
       PORTD &= ~stepPin;
       currSteps++;
-      // Serial.println(stepPin);
     }
     stepStatus = !stepStatus;
   }
@@ -39,14 +38,12 @@ void Stepper::step()
 
 double Stepper::getRevolutions()
 {
-
-  return 1.0;
+  return currSteps / ((double)stepPerRev * (double)microStep);
 }
 
 double Stepper::getDistance()
 {
-
-  return 1.0;
+  return getRevolutions() * distPerRev;
 }
 
 double Stepper::getRunTime()
@@ -55,10 +52,11 @@ double Stepper::getRunTime()
   return 1.0;
 }
 
-bool Stepper::setTargetDistance()
+bool Stepper::setTargetDistance(double distance)
 {
-
-  return false;
+  double tempDouble = (distance * stepPerRev * microStep) / distPerRev;
+  targetSteps = (uint32_t)tempDouble;
+  return true;
 }
 
 bool Stepper::setMicroSteps(uint8_t microSteps)

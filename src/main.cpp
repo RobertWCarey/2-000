@@ -9,13 +9,13 @@ static const uint32_t BAUD_RATE = 9600;
 // interrupt frequency in Hz ie 2x number of steps
 const float sampleRate = 400.0f;
 
-CmdInterface cmdInterface;
+CmdInterface drv8834Cmd;
 
 Stepper drv8834;
 
 void setup()
 {
-
+  // Configuration for stepper
   drv8834.dirPin = DIR_PIN;
   drv8834.stepPin = STEP_PIN;
   drv8834.sleepPin = SLEEP_PIN;
@@ -23,10 +23,13 @@ void setup()
   drv8834.m1Pin = M1_PIN;
   drv8834.microStep = 16;
   drv8834.direction = 1;
+  drv8834.stepPerRev = 200;
 
+  // Initilise the stepper
+  // Ensure configuration has been set
   drv8834.init(sampleRate);
-  DDRB |= (1 << PORTB5);
-  PORTB |= (1 << PORTB5);
+  // Initilise cmd interface for the stepper
+  drv8834Cmd.init(&drv8834);
 
   // Start Serial Port
   Serial.begin(BAUD_RATE);
@@ -34,9 +37,6 @@ void setup()
   Serial.println(drv8834.stepPin);
   Serial.println(DDRD);
 }
-
-int spd = 0xffff;
-int clk = 0;
 
 // timer 1 interrupt
 ISR(TIMER1_COMPA_vect)
@@ -49,5 +49,5 @@ void loop()
   // revolutions = steps / 1600;
   // distance = revolutions * 0.095;
 
-  cmdInterface.getCommandLineFromSerialPort(); //global CommandLine is defined in CommandLine.h
+  drv8834Cmd.getCommandLineFromSerialPort(); //global CommandLine is defined in CommandLine.h
 }
