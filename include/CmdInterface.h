@@ -22,19 +22,21 @@ typedef struct
   String params[MAX_NUM_PARAMS]; /*!< parameter that the command responds to*/
 } Command;
 
-static Command sleepCmd = {"Sleep", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
+static Command startCmd = {"start", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
 static Command helpCmd = {"-h", "Displays a summary of commands", {"NULL"}};
+static Command getSummaryCmd = {"summary", "Displays a summary of current state", {"'-e' extended summary"}};
 
 static const char *delimiters = ", \n"; // commands can be separated by return, space or comma
 
 class CmdInterface
 {
   char CommandLine[COMMAND_BUFFER_LENGTH + 1]; //Read commands into this buffer from Serial.  +1 in length for a termination char
-  const Stepper *cmdStepper;
+  Stepper cmdStepper;
 
 private:
   void doMyCommand();
-  bool sleepCommand();
+  bool startCommand();
+  bool getSummary();
   char *readWord();
   int readNumber();
   int strcicmp(char const *a, char const *b);
@@ -42,7 +44,7 @@ private:
   void printHelpCmd(char const *cmd, String description, const String paramters[]);
 
 public:
-  bool init(const Stepper *stepper);
+  bool init(Stepper &stepper);
   void getCommandLineFromSerialPort();
 };
 

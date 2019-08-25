@@ -36,14 +36,31 @@ void Stepper::step()
   }
 }
 
-double Stepper::getRevolutions()
+int Stepper::getSteps(bool select)
 {
-  return currSteps / ((double)stepPerRev * (double)microStep);
+  if (select)
+    return currSteps;
+  else
+    return targetSteps;
 }
 
-double Stepper::getDistance()
+double Stepper::getRevolutions(bool select)
 {
-  return getRevolutions() * distPerRev;
+  if (select)
+    // Current revolutions
+    return currSteps / ((double)stepPerRev * (double)microStep);
+  else
+    // Target Revolutions
+    return targetSteps / ((double)stepPerRev * (double)microStep);
+}
+
+double Stepper::getDistance(bool select)
+{
+  if (select)
+    // Current  distance
+    return getRevolutions(1) * distPerRev;
+  else
+    return targetDistance;
 }
 
 double Stepper::getRunTime()

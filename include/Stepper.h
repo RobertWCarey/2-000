@@ -31,8 +31,9 @@ public:
   bool direction;
   void step();
   bool init(float sampleRate);
-  double getRevolutions();
-  double getDistance();
+  int getSteps(bool select);
+  double getRevolutions(bool select);
+  double getDistance(bool select);
   double getRunTime();
   bool setTargetDistance(double distance);
   bool setMicroSteps(uint8_t microSteps);

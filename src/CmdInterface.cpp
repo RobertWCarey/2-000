@@ -3,7 +3,7 @@
  */
 #include "CmdInterface.h"
 
-bool CmdInterface::init(const Stepper *stepper)
+bool CmdInterface::init(Stepper &stepper)
 {
   cmdStepper = stepper;
   return true;
@@ -37,7 +37,7 @@ void CmdInterface::nullCommand(char *ptrToCommandName)
   Serial.println(ptrToCommandName);
 }
 
-bool CmdInterface::sleepCommand()
+bool CmdInterface::startCommand()
 {
   int firstOperand = readNumber();
   if (firstOperand == 1)
@@ -53,21 +53,56 @@ bool CmdInterface::sleepCommand()
   return false;
 }
 
+bool CmdInterface::getSummary()
+{
+  // Target Distance
+  Serial.print("  Target Distance: ");
+  Serial.println(cmdStepper.getDistance(0));
+  // Distance Covered
+  Serial.print("  Current Distance: ");
+  Serial.println(cmdStepper.getDistance(1));
+  // Current Runtime
+  Serial.print("  Current Runtime: ");
+  Serial.println(cmdStepper.getRunTime());
+  char *option = readWord();
+  if (!strcicmp(option, "-e"))
+  {
+    // Target Revolutions
+    Serial.print("  Target Revolutions: ");
+    Serial.println(cmdStepper.getRevolutions(0));
+    // Current Revolutions
+    Serial.print("  Current Revolutions: ");
+    Serial.println(cmdStepper.getRevolutions(1));
+    // Target Steps
+    Serial.print("  Traget Steps: ");
+    Serial.println(cmdStepper.getSteps(1));
+    // Current Steps
+    Serial.print(" Current Steps: ");
+    Serial.println(cmdStepper.getSteps(0));
+  }
+  return true;
+}
+
 void CmdInterface::doMyCommand()
 {
   char *ptrToCommandName = strtok(CommandLine, delimiters);
 
-  if (!strcicmp(ptrToCommandName, sleepCmd.cmd))
+  if (!strcicmp(ptrToCommandName, startCmd.cmd))
   {
-    if (sleepCommand())
-      Serial.println(">    The Sleep setting was set");
+    if (startCommand())
+      Serial.println(">    The start setting was set");
     else
-      Serial.println(">    The Sleep setting was not set");
+      Serial.println(">    The start setting was not set");
   }
   else if (!strcicmp(ptrToCommandName, helpCmd.cmd))
   {
     Serial.println("Commands:");
-    printHelpCmd(sleepCmd.cmd, sleepCmd.description, sleepCmd.params);
+    printHelpCmd(startCmd.cmd, startCmd.description, startCmd.params);
+    printHelpCmd(getSummaryCmd.cmd, getSummaryCmd.description, getSummaryCmd.params);
+  }
+  else if (!strcicmp(ptrToCommandName, getSummaryCmd.cmd))
+  {
+    getSummary();
   }
   else
   {

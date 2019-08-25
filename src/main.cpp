@@ -29,13 +29,10 @@ void setup()
   // Ensure configuration has been set
   drv8834.init(sampleRate);
   // Initilise cmd interface for the stepper
-  drv8834Cmd.init(&drv8834);
+  drv8834Cmd.init(drv8834);
 
   // Start Serial Port
   Serial.begin(BAUD_RATE);
-
-  Serial.println(drv8834.stepPin);
-  Serial.println(DDRD);
 }
 
 // timer 1 interrupt
