@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.env.windows": {
+        "PATH": "C:\\Users\\Rob\\.platformio\\penv\\Scripts;C:\\Users\\Rob\\.platformio\\penv;",
+        "PLATFORMIO_CALLER": "vscode"
+    }
+}
