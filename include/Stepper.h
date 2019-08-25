@@ -13,8 +13,8 @@ class Stepper
 private:
   uint32_t currSteps = 0;
   uint32_t targetSteps;
-  double currDistance;
-  double targetDistance;
+  double currDistance;   // Stored in mm
+  double targetDistance; // Stored in mm
   bool stepStatus = 0;
   unsigned long startTime;
 
@@ -35,6 +35,8 @@ public:
   double getRevolutions(bool select);
   double getDistance(bool select);
   double getRunTime();
+  bool setDistance(double dist, bool select);
+  bool setStartTime();
   bool setTargetDistance(double distance);
   bool setMicroSteps(uint8_t microSteps);
   bool setDirection(bool dir);

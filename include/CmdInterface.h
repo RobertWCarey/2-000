@@ -25,6 +25,8 @@ typedef struct
 static Command startCmd = {"start", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
 static Command helpCmd = {"-h", "Displays a summary of commands", {"NULL"}};
 static Command getSummaryCmd = {"summary", "Displays a summary of current state", {"'-e' extended summary"}};
+static Command setDisCmd = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist"}};
+// static Command setDisCmd = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist", "'xx um' set distance in micro-meters", "'xx mm' set distance in mili-meters"}};
 
 static const char *delimiters = ", \n"; // commands can be separated by return, space or comma
 
@@ -37,6 +39,7 @@ private:
   void doMyCommand();
   bool startCommand();
   bool getSummary();
+  bool setDistance();
   char *readWord();
   int readNumber();
   int strcicmp(char const *a, char const *b);
@@ -47,12 +50,6 @@ public:
   bool init(Stepper &stepper);
   void getCommandLineFromSerialPort();
 };
-
-/**
- * @brief 
- * 
- * @return char* 
- */
 
 #endif // cmdInterface_h
 

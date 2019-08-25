@@ -69,6 +69,28 @@ double Stepper::getRunTime()
   return (double)currentMillis / 100;
 }
 
+bool Stepper::setDistance(double dist, bool select)
+{
+  if (select)
+  // Current distance
+  {
+    currDistance = dist;
+    return true;
+  }
+  else
+  // Target distance
+  {
+    targetDistance = dist;
+    return true;
+  }
+  return false;
+}
+
+bool Stepper::setStartTime()
+{
+  startTime = millis();
+}
+
 bool Stepper::setTargetDistance(double distance)
 {
   double tempDouble = (distance * stepPerRev * microStep) / distPerRev;

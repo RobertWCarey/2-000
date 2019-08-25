@@ -4,7 +4,7 @@
 #include "Stepper.h"
 
 // UART Baud rate
-static const uint32_t BAUD_RATE = 9600;
+static const uint32_t BAUD_RATE = 115200;
 
 // interrupt frequency in Hz ie 2x number of steps
 const float sampleRate = 400.0f;

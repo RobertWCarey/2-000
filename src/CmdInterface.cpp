@@ -42,6 +42,7 @@ bool CmdInterface::startCommand()
   int firstOperand = readNumber();
   if (firstOperand == 1)
   {
+    cmdStepper.setStartTime();
     SLEEP_PIN_HIGH;
     return true;
   }
@@ -83,6 +84,26 @@ bool CmdInterface::getSummary()
   return true;
 }
 
+bool CmdInterface::setDistance()
+{
+  char *option = readWord();
+  int dist = readNumber();
+  // char *unit = readWord();
+
+  if (!strcicmp(option, "-t"))
+  {
+    cmdStepper.setDistance((double)dist, 0);
+    return true;
+  }
+  else if (!strcicmp(option, "-c"))
+  {
+    cmdStepper.setDistance((double)dist, 1);
+    return true;
+  }
+
+  return false;
+}
+
 void CmdInterface::doMyCommand()
 {
   char *ptrToCommandName = strtok(CommandLine, delimiters);
@@ -99,10 +120,18 @@ void CmdInterface::doMyCommand()
     Serial.println("Commands:");
     printHelpCmd(startCmd.cmd, startCmd.description, startCmd.params);
     printHelpCmd(getSummaryCmd.cmd, getSummaryCmd.description, getSummaryCmd.params);
+    printHelpCmd(setDisCmd.cmd, setDisCmd.description, setDisCmd.params);
   }
   else if (!strcicmp(ptrToCommandName, getSummaryCmd.cmd))
   {
     getSummary();
+  }
+  else if (!strcicmp(ptrToCommandName, setDisCmd.cmd))
+  {
+    if (setDistance())
+      Serial.println(">   The distance setting was set");
+    else
+      Serial.println(">   The distance setting was not set");
   }
   else
   {
@@ -113,6 +142,7 @@ void CmdInterface::doMyCommand()
 void CmdInterface::printHelpCmd(char const *cmd, String description, const String paramters[])
 {
   int numParams = sizeof(paramters);
+  // Serial.println(numParams);
 
   Serial.print("  ");
   Serial.print("'");
