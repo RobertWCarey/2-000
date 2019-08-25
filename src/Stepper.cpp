@@ -63,10 +63,22 @@ double Stepper::getDistance(bool select)
     return targetDistance;
 }
 
-double Stepper::getRunTime()
+unsigned long Stepper::getTime(bool select)
 {
-  unsigned long currentMillis = startTime - millis();
-  return (double)currentMillis / 100;
+  if (select)
+    // Start time
+    return startTime;
+  else
+    // Current time
+    return millis();
+}
+
+unsigned long Stepper::getRunTime()
+{
+  if (startTime)
+    return millis() - startTime;
+  else
+    return 0;
 }
 
 bool Stepper::setDistance(double dist, bool select)
@@ -89,6 +101,7 @@ bool Stepper::setDistance(double dist, bool select)
 bool Stepper::setStartTime()
 {
   startTime = millis();
+  return true;
 }
 
 bool Stepper::setTargetDistance(double distance)

@@ -68,6 +68,12 @@ bool CmdInterface::getSummary()
   char *option = readWord();
   if (!strcicmp(option, "-e"))
   {
+    // Start time
+    Serial.print("  Start Time: ");
+    Serial.println(cmdStepper.getTime(1));
+    // Current time
+    Serial.print("  Current Time: ");
+    Serial.println(cmdStepper.getTime(0));
     // Target Revolutions
     Serial.print("  Target Revolutions: ");
     Serial.println(cmdStepper.getRevolutions(0));

@@ -16,7 +16,7 @@ private:
   double currDistance;   // Stored in mm
   double targetDistance; // Stored in mm
   bool stepStatus = 0;
-  unsigned long startTime;
+  unsigned long startTime = 0;
 
 public:
   // All pins have to be on PORTD
@@ -34,7 +34,8 @@ public:
   int getSteps(bool select);
   double getRevolutions(bool select);
   double getDistance(bool select);
-  double getRunTime();
+  unsigned long getTime(bool select);
+  unsigned long getRunTime();
   bool setDistance(double dist, bool select);
   bool setStartTime();
   bool setTargetDistance(double distance);
