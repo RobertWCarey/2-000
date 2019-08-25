@@ -77,7 +77,7 @@ bool CmdInterface::getSummary()
     Serial.print("  Traget Steps: ");
     Serial.println(cmdStepper.getSteps(1));
     // Current Steps
-    Serial.print(" Current Steps: ");
+    Serial.print("  Current Steps: ");
     Serial.println(cmdStepper.getSteps(0));
   }
   return true;
