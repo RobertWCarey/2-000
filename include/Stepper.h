@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "Arduino.h"
 
-const double distPerRev = 0.008; // Distance in m
+const double distPerRev PROGMEM = 0.008; // Distance in m
 
 class Stepper
 {

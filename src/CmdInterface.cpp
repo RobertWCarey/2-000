@@ -9,16 +9,6 @@ bool CmdInterface::init(Stepper &stepper)
   return true;
 }
 
-int CmdInterface::strcicmp(char const *a, char const *b)
-{
-  for (;; a++, b++)
-  {
-    int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
-    if (d != 0 || !*a)
-      return d;
-  }
-}
-
 int CmdInterface::readNumber()
 {
   char *numTextPtr = strtok(NULL, delimiters); //K&R string.h  pg. 250
@@ -33,7 +23,7 @@ char *CmdInterface::readWord()
 
 void CmdInterface::nullCommand(char *ptrToCommandName)
 {
-  Serial.print("Command not found: ");
+  Serial.print(F("Command not found: "));
   Serial.println(ptrToCommandName);
 }
 
@@ -66,7 +56,7 @@ bool CmdInterface::getSummary()
   Serial.print(F("  Current Runtime: "));
   Serial.println(cmdStepper.getRunTime());
   char *option = readWord();
-  if (!strcicmp(option, "-e"))
+  if (!strcasecmp(option, "-e"))
   {
     // Start time
     Serial.print(F("  Start Time: "));
@@ -96,12 +86,12 @@ bool CmdInterface::setDistance()
   int dist = readNumber();
   // char *unit = readWord();
 
-  if (!strcicmp(option, "-t"))
+  if (!strcasecmp(option, "-t"))
   {
     cmdStepper.setDistance((double)dist, 0);
     return true;
   }
-  else if (!strcicmp(option, "-c"))
+  else if (!strcasecmp(option, "-c"))
   {
     cmdStepper.setDistance((double)dist, 1);
     return true;
@@ -121,18 +111,18 @@ void CmdInterface::doMyCommand()
     else
       Serial.println(F(">    The start setting was not set"));
   }
-  else if (!strcicmp(ptrToCommandName, helpCmd.cmd.c_str()))
+  else if (!strcasecmp(ptrToCommandName, helpCmd.cmd.c_str()))
   {
     Serial.println(F("Commands:"));
     printHelpCmd(startCmd.cmd.c_str(), startCmd.description, startCmd.params);
     printHelpCmd(getSummaryCmd.cmd.c_str(), getSummaryCmd.description, getSummaryCmd.params);
     printHelpCmd(setDisCmd.cmd.c_str(), setDisCmd.description, setDisCmd.params);
   }
-  else if (!strcicmp(ptrToCommandName, getSummaryCmd.cmd.c_str()))
+  else if (!strcasecmp(ptrToCommandName, getSummaryCmd.cmd.c_str()))
   {
     getSummary();
   }
-  else if (!strcicmp(ptrToCommandName, setDisCmd.cmd.c_str()))
+  else if (!strcasecmp(ptrToCommandName, setDisCmd.cmd.c_str()))
   {
     if (setDistance())
       Serial.println(F(">   The distance setting was set"));
