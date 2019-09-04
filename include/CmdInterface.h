@@ -17,12 +17,12 @@
 
 typedef struct
 {
-  const char *cmd;               /*!< Command token that triggers cmd */
+  String cmd;                    /*!< Command token that triggers cmd */
   String description;            /*!< Description of command */
   String params[MAX_NUM_PARAMS]; /*!< parameter that the command responds to*/
 } Command;
 
-static Command startCmd = {"start", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
+const Command startCmd PROGMEM = {"start", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
 static Command helpCmd = {"-h", "Displays a summary of commands", {"NULL"}};
 static Command getSummaryCmd = {"summary", "Displays a summary of current state", {"'-e' extended summary"}};
 static Command setDisCmd = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist"}};

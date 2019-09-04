@@ -114,25 +114,25 @@ void CmdInterface::doMyCommand()
 {
   char *ptrToCommandName = strtok(CommandLine, delimiters);
 
-  if (!strcicmp(ptrToCommandName, startCmd.cmd))
+  if (!strcasecmp(ptrToCommandName, startCmd.cmd.c_str()))
   {
     if (startCommand())
       Serial.println(F(">    The start setting was set"));
     else
       Serial.println(F(">    The start setting was not set"));
   }
-  else if (!strcicmp(ptrToCommandName, helpCmd.cmd))
+  else if (!strcicmp(ptrToCommandName, helpCmd.cmd.c_str()))
   {
     Serial.println(F("Commands:"));
-    printHelpCmd(startCmd.cmd, startCmd.description, startCmd.params);
-    printHelpCmd(getSummaryCmd.cmd, getSummaryCmd.description, getSummaryCmd.params);
-    printHelpCmd(setDisCmd.cmd, setDisCmd.description, setDisCmd.params);
+    printHelpCmd(startCmd.cmd.c_str(), startCmd.description, startCmd.params);
+    printHelpCmd(getSummaryCmd.cmd.c_str(), getSummaryCmd.description, getSummaryCmd.params);
+    printHelpCmd(setDisCmd.cmd.c_str(), setDisCmd.description, setDisCmd.params);
   }
-  else if (!strcicmp(ptrToCommandName, getSummaryCmd.cmd))
+  else if (!strcicmp(ptrToCommandName, getSummaryCmd.cmd.c_str()))
   {
     getSummary();
   }
-  else if (!strcicmp(ptrToCommandName, setDisCmd.cmd))
+  else if (!strcicmp(ptrToCommandName, setDisCmd.cmd.c_str()))
   {
     if (setDistance())
       Serial.println(F(">   The distance setting was set"));
