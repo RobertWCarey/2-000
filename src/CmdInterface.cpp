@@ -57,34 +57,34 @@ bool CmdInterface::startCommand()
 bool CmdInterface::getSummary()
 {
   // Target Distance
-  Serial.print("  Target Distance: ");
+  Serial.print(F("  Target Distance: "));
   Serial.println(cmdStepper.getDistance(0));
   // Distance Covered
-  Serial.print("  Current Distance: ");
+  Serial.print(F("  Current Distance: "));
   Serial.println(cmdStepper.getDistance(1));
   // Current Runtime
-  Serial.print("  Current Runtime: ");
+  Serial.print(F("  Current Runtime: "));
   Serial.println(cmdStepper.getRunTime());
   char *option = readWord();
   if (!strcicmp(option, "-e"))
   {
     // Start time
-    Serial.print("  Start Time: ");
+    Serial.print(F("  Start Time: "));
     Serial.println(cmdStepper.getTime(1));
     // Current time
-    Serial.print("  Current Time: ");
+    Serial.print(F("  Current Time: "));
     Serial.println(cmdStepper.getTime(0));
     // Target Revolutions
-    Serial.print("  Target Revolutions: ");
+    Serial.print(F("  Target Revolutions: "));
     Serial.println(cmdStepper.getRevolutions(0));
     // Current Revolutions
-    Serial.print("  Current Revolutions: ");
+    Serial.print(F("  Current Revolutions: "));
     Serial.println(cmdStepper.getRevolutions(1));
     // Target Steps
-    Serial.print("  Traget Steps: ");
+    Serial.print(F("  Traget Steps: "));
     Serial.println(cmdStepper.getSteps(1));
     // Current Steps
-    Serial.print("  Current Steps: ");
+    Serial.print(F("  Current Steps: "));
     Serial.println(cmdStepper.getSteps(0));
   }
   return true;
@@ -117,13 +117,13 @@ void CmdInterface::doMyCommand()
   if (!strcicmp(ptrToCommandName, startCmd.cmd))
   {
     if (startCommand())
-      Serial.println(">    The start setting was set");
+      Serial.println(F(">    The start setting was set"));
     else
-      Serial.println(">    The start setting was not set");
+      Serial.println(F(">    The start setting was not set"));
   }
   else if (!strcicmp(ptrToCommandName, helpCmd.cmd))
   {
-    Serial.println("Commands:");
+    Serial.println(F("Commands:"));
     printHelpCmd(startCmd.cmd, startCmd.description, startCmd.params);
     printHelpCmd(getSummaryCmd.cmd, getSummaryCmd.description, getSummaryCmd.params);
     printHelpCmd(setDisCmd.cmd, setDisCmd.description, setDisCmd.params);
@@ -135,9 +135,9 @@ void CmdInterface::doMyCommand()
   else if (!strcicmp(ptrToCommandName, setDisCmd.cmd))
   {
     if (setDistance())
-      Serial.println(">   The distance setting was set");
+      Serial.println(F(">   The distance setting was set"));
     else
-      Serial.println(">   The distance setting was not set");
+      Serial.println(F(">   The distance setting was not set"));
   }
   else
   {
@@ -159,7 +159,7 @@ void CmdInterface::printHelpCmd(char const *cmd, String description, const Strin
 
   if (paramters[0] != "NULL")
   {
-    Serial.println("    Params:");
+    Serial.println(F("    Params:"));
     for (int i = 0; i < numParams; i++)
     {
       Serial.print("      ");

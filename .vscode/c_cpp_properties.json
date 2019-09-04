@@ -23,7 +23,6 @@
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": "${workspaceRoot}/.vscode/.browse.c_cpp.db",
                 "path": [
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
@@ -42,7 +41,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=40000",
+                "PLATFORMIO=40003",
                 "ARDUINO_AVR_NANO",
                 "F_CPU=16000000L",
                 "ARDUINO_ARCH_AVR",
