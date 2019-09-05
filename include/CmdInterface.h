@@ -6,6 +6,7 @@
 #include "Arduino.h"
 #include "pinDef.h" // Call after Arduino.h
 #include "Stepper.h"
+#include "BasicTerm.h"
 
 #define CR '\r'
 #define LF '\n'
@@ -29,7 +30,9 @@ const Command setDisCmd PROGMEM = {"setDist", "Set current or target disatance",
 
 // static Command setDisCmd = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist", "'xx um' set distance in micro-meters", "'xx mm' set distance in mili-meters"}};
 
-static const char *delimiters = ", \n"; // commands can be separated by return, space or comma
+static const char *const delimiters PROGMEM = ", \n"; // commands can be separated by return, space or comma
+
+static BasicTerm term(&Serial);
 
 class CmdInterface
 {
@@ -44,7 +47,7 @@ private:
   char *readWord();
   int readNumber();
   void nullCommand(char *ptrToCommandName);
-  void printHelpCmd(char const *cmd, String description, const String paramters[]);
+  void printHelpCmd(const String cmd, const String description, const String paramters[]);
 
 public:
   bool init(Stepper &stepper);

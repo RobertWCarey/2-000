@@ -46,37 +46,85 @@ bool CmdInterface::startCommand()
 
 bool CmdInterface::getSummary()
 {
-  // Target Distance
-  Serial.print(F("  Target Distance: "));
-  Serial.println(cmdStepper.getDistance(0));
-  // Distance Covered
-  Serial.print(F("  Current Distance: "));
-  Serial.println(cmdStepper.getDistance(1));
-  // Current Runtime
-  Serial.print(F("  Current Runtime: "));
-  Serial.println(cmdStepper.getRunTime());
-  char *option = readWord();
-  if (!strcasecmp(option, "-e"))
+  uint16_t key = 0;
+  term.cls();
+  while (key != ' ')
   {
+    term.position(0, 0);
+    term.set_attribute(BT_NORMAL);
+    term.set_attribute(BT_UNDERLINE);
+    term.println(F("Summary"));
+
+    // Target Distance
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Target Distance: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getDistance(0));
+
+    // Distance Covered
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Current Distance: "));
+    term.set_attribute(BT_BLINK);
+    term.print(cmdStepper.getDistance(1));
+    term.println(" m");
+
+    // Current Runtime
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Current Runtime: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getRunTime());
+
+    term.println();
+
     // Start time
-    Serial.print(F("  Start Time: "));
-    Serial.println(cmdStepper.getTime(1));
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Start Time: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getTime(1));
+
     // Current time
-    Serial.print(F("  Current Time: "));
-    Serial.println(cmdStepper.getTime(0));
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Current Time: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getTime(0));
+
     // Target Revolutions
-    Serial.print(F("  Target Revolutions: "));
-    Serial.println(cmdStepper.getRevolutions(0));
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Target Revolutions: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getRevolutions(0));
+
     // Current Revolutions
-    Serial.print(F("  Current Revolutions: "));
-    Serial.println(cmdStepper.getRevolutions(1));
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Current Revolutions: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getRevolutions(1));
+
     // Target Steps
-    Serial.print(F("  Traget Steps: "));
-    Serial.println(cmdStepper.getSteps(1));
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Target Steps: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getSteps(1));
+
     // Current Steps
-    Serial.print(F("  Current Steps: "));
-    Serial.println(cmdStepper.getSteps(0));
+    term.set_attribute(BT_NORMAL);
+    term.print(F("  Current Steps: "));
+    term.set_attribute(BT_BLINK);
+    term.println(cmdStepper.getSteps(0));
+
+    key = term.get_key();
+    switch (key)
+    {
+    case '\f':
+      /* Ctrl-L: redraw screen */
+      term.cls();
+      break;
+    }
   }
+
+  // Set font back to default before exit
+  term.set_attribute(BT_NORMAL);
+
   return true;
 }
 
@@ -114,9 +162,9 @@ void CmdInterface::doMyCommand()
   else if (!strcasecmp(ptrToCommandName, helpCmd.cmd.c_str()))
   {
     Serial.println(F("Commands:"));
-    printHelpCmd(startCmd.cmd.c_str(), startCmd.description, startCmd.params);
-    printHelpCmd(getSummaryCmd.cmd.c_str(), getSummaryCmd.description, getSummaryCmd.params);
-    printHelpCmd(setDisCmd.cmd.c_str(), setDisCmd.description, setDisCmd.params);
+    printHelpCmd(startCmd.cmd, startCmd.description, startCmd.params);
+    printHelpCmd(getSummaryCmd.cmd, getSummaryCmd.description, getSummaryCmd.params);
+    printHelpCmd(setDisCmd.cmd, setDisCmd.description, setDisCmd.params);
   }
   else if (!strcasecmp(ptrToCommandName, getSummaryCmd.cmd.c_str()))
   {
@@ -135,7 +183,7 @@ void CmdInterface::doMyCommand()
   }
 }
 
-void CmdInterface::printHelpCmd(char const *cmd, String description, const String paramters[])
+void CmdInterface::printHelpCmd(const String cmd, const String description, const String paramters[])
 {
   int numParams = sizeof(paramters);
   // Serial.println(numParams);
