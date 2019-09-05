@@ -8,6 +8,7 @@
             "includePath": [
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
+                "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicTerm",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/cores/arduino",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/variants/eightanaloginputs",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicStepperDriver",
@@ -26,6 +27,7 @@
                 "path": [
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
+                    "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicTerm",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/cores/arduino",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/variants/eightanaloginputs",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicStepperDriver",

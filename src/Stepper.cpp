@@ -36,7 +36,7 @@ void Stepper::step()
   }
 }
 
-int Stepper::getSteps(bool select)
+uint32_t Stepper::getSteps(bool select)
 {
   if (select)
     return currSteps;
@@ -87,12 +87,16 @@ bool Stepper::setDistance(double dist, bool select)
   // Current distance
   {
     currDistance = dist;
+    // update steps to match
+    currSteps = step2um_Mult * microStep * currDistance;
     return true;
   }
   else
   // Target distance
   {
     targetDistance = dist;
+    // Update steps to match
+    targetSteps = step2um_Mult * microStep * targetDistance;
     return true;
   }
   return false;
@@ -137,8 +141,7 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
   }
 
   return true;
-}
-
+};
 bool Stepper::setDirection(bool dir)
 {
   if (dir)

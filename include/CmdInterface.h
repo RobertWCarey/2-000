@@ -37,7 +37,7 @@ static BasicTerm term(&Serial);
 class CmdInterface
 {
   char CommandLine[COMMAND_BUFFER_LENGTH + 1]; //Read commands into this buffer from Serial.  +1 in length for a termination char
-  Stepper cmdStepper;
+  Stepper *cmdStepper;
 
 private:
   void doMyCommand();
@@ -50,7 +50,8 @@ private:
   void printHelpCmd(const String cmd, const String description, const String paramters[]);
 
 public:
-  bool init(Stepper &stepper);
+  CmdInterface(Stepper *stepper);
+  // bool init(Stepper &stepper);
   void getCommandLineFromSerialPort();
 };
 
