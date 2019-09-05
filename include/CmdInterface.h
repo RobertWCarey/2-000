@@ -6,6 +6,7 @@
 #include "Arduino.h"
 #include "pinDef.h" // Call after Arduino.h
 #include "Stepper.h"
+#include "BasicTerm.h"
 
 #define CR '\r'
 #define LF '\n'
@@ -17,40 +18,41 @@
 
 typedef struct
 {
-  const char *cmd;               /*!< Command token that triggers cmd */
+  String cmd;                    /*!< Command token that triggers cmd */
   String description;            /*!< Description of command */
   String params[MAX_NUM_PARAMS]; /*!< parameter that the command responds to*/
 } Command;
 
-static Command sleepCmd = {"Sleep", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
-static Command helpCmd = {"-h", "Displays a summary of commands", {"NULL"}};
+const Command startCmd PROGMEM = {"start", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
+const Command helpCmd PROGMEM = {"-h", "Displays a summary of commands", {"NULL"}};
+const Command getSummaryCmd PROGMEM = {"summary", "Displays a summary of current state", {"'-e' extended summary"}};
+const Command setDisCmd PROGMEM = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist"}};
 
-static const char *delimiters = ", \n"; // commands can be separated by return, space or comma
+// static Command setDisCmd = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist", "'xx um' set distance in micro-meters", "'xx mm' set distance in mili-meters"}};
+
+static const char *const delimiters PROGMEM = ", \n"; // commands can be separated by return, space or comma
+
+static BasicTerm term(&Serial);
 
 class CmdInterface
 {
   char CommandLine[COMMAND_BUFFER_LENGTH + 1]; //Read commands into this buffer from Serial.  +1 in length for a termination char
-  const Stepper *cmdStepper;
+  Stepper cmdStepper;
 
 private:
   void doMyCommand();
-  bool sleepCommand();
+  bool startCommand();
+  bool getSummary();
+  bool setDistance();
   char *readWord();
   int readNumber();
-  int strcicmp(char const *a, char const *b);
   void nullCommand(char *ptrToCommandName);
-  void printHelpCmd(char const *cmd, String description, const String paramters[]);
+  void printHelpCmd(const String cmd, const String description, const String paramters[]);
 
 public:
-  bool init(const Stepper *stepper);
+  bool init(Stepper &stepper);
   void getCommandLineFromSerialPort();
 };
-
-/**
- * @brief 
- * 
- * @return char* 
- */
 
 #endif // cmdInterface_h
 

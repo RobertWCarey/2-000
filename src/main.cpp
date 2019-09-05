@@ -2,9 +2,10 @@
 #include "pinDef.h" // Call after Arduino.h
 #include "CmdInterface.h"
 #include "Stepper.h"
+#include "BasicTerm.h"
 
 // UART Baud rate
-static const uint32_t BAUD_RATE = 9600;
+static const uint32_t BAUD_RATE = 115200;
 
 // interrupt frequency in Hz ie 2x number of steps
 const float sampleRate = 400.0f;
@@ -13,8 +14,13 @@ CmdInterface drv8834Cmd;
 
 Stepper drv8834;
 
+// BasicTerm term(&Serial);
+
 void setup()
 {
+  // Start Serial Port
+  Serial.begin(BAUD_RATE);
+
   // Configuration for stepper
   drv8834.dirPin = DIR_PIN;
   drv8834.stepPin = STEP_PIN;
@@ -29,13 +35,7 @@ void setup()
   // Ensure configuration has been set
   drv8834.init(sampleRate);
   // Initilise cmd interface for the stepper
-  drv8834Cmd.init(&drv8834);
-
-  // Start Serial Port
-  Serial.begin(BAUD_RATE);
-
-  Serial.println(drv8834.stepPin);
-  Serial.println(DDRD);
+  drv8834Cmd.init(drv8834);
 }
 
 // timer 1 interrupt
@@ -48,6 +48,11 @@ void loop()
 {
   // revolutions = steps / 1600;
   // distance = revolutions * 0.095;
+
+  // term.position(0, 0);
+  // term.set_attribute(BT_NORMAL);
+  // term.print(F("Current millis: "));
+  // term.print(millis());
 
   drv8834Cmd.getCommandLineFromSerialPort(); //global CommandLine is defined in CommandLine.h
 }
