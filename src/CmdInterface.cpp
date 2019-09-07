@@ -61,20 +61,22 @@ bool CmdInterface::getSummary()
     term.set_attribute(BT_NORMAL);
     term.print(F("  Target Distance: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getDistance(0));
+    term.print(cmdStepper->getDistance(0));
+    term.println(F(" um"));
 
     // Distance Covered
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Distance: "));
     term.set_attribute(BT_BLINK);
     term.print(cmdStepper->getDistance(1));
-    term.println(" m");
+    term.println(F(" um"));
 
     // Current Runtime
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Runtime: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getRunTime());
+    term.print(cmdStepper->getRunTime());
+    term.println(F(" s"));
 
     term.println();
 
@@ -82,13 +84,15 @@ bool CmdInterface::getSummary()
     term.set_attribute(BT_NORMAL);
     term.print(F("  Start Time: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getTime(1));
+    term.print(cmdStepper->getTime(1));
+    term.println(F(" ms"));
 
     // Current time
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Time: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getTime(0));
+    term.print(cmdStepper->getTime(0));
+    term.println(F(" ms"));
 
     // Target Revolutions
     term.set_attribute(BT_NORMAL);
