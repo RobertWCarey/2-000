@@ -26,15 +26,6 @@ void Stepper::step()
 {
   if ((sleepPin & PORTD) && (targetSteps - currSteps))
   {
-    static bool temp = 1;
-
-    if (temp)
-    {
-      delay(1000);
-      Serial.println(PORTD, BIN);
-      temp = 0;
-    }
-
     // Serial.print("");
     if (stepStatus)
     {
