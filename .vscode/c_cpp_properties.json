@@ -8,6 +8,9 @@
             "includePath": [
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
+                "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicTerm",
+                "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/LiquidCrystal_I2C",
+                "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/cores/arduino",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/variants/eightanaloginputs",
                 "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicStepperDriver",
@@ -17,7 +20,6 @@
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/HID/src",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src",
                 "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SoftwareSerial/src",
-                "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src",
                 "C:/Users/Rob/.platformio/packages/tool-unity",
                 ""
             ],
@@ -26,6 +28,9 @@
                 "path": [
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/include",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/src",
+                    "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicTerm",
+                    "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/LiquidCrystal_I2C",
+                    "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/cores/arduino",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/variants/eightanaloginputs",
                     "d:/Sync/Projects/1-0013 (Cell Stretcher)/Code/2-000/lib/BasicStepperDriver",
@@ -35,7 +40,6 @@
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/HID/src",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src",
                     "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SoftwareSerial/src",
-                    "C:/Users/Rob/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src",
                     "C:/Users/Rob/.platformio/packages/tool-unity",
                     ""
                 ]

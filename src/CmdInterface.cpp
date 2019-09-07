@@ -3,10 +3,10 @@
  */
 #include "CmdInterface.h"
 
-bool CmdInterface::init(Stepper &stepper)
+CmdInterface::CmdInterface(Stepper *stepper)
 {
   cmdStepper = stepper;
-  return true;
+  // return true;
 }
 
 int CmdInterface::readNumber()
@@ -32,13 +32,15 @@ bool CmdInterface::startCommand()
   int firstOperand = readNumber();
   if (firstOperand == 1)
   {
-    cmdStepper.setStartTime();
+    cmdStepper->setStartTime();
     SLEEP_PIN_HIGH;
+    TIMSK1 |= (1 << OCIE1A);
     return true;
   }
   else if (!firstOperand)
   {
     SLEEP_PIN_LOW;
+    TIMSK1 &= ~(1 << OCIE1A);
     return true;
   }
   return false;
@@ -59,20 +61,20 @@ bool CmdInterface::getSummary()
     term.set_attribute(BT_NORMAL);
     term.print(F("  Target Distance: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getDistance(0));
+    term.println(cmdStepper->getDistance(0));
 
     // Distance Covered
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Distance: "));
     term.set_attribute(BT_BLINK);
-    term.print(cmdStepper.getDistance(1));
+    term.print(cmdStepper->getDistance(1));
     term.println(" m");
 
     // Current Runtime
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Runtime: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getRunTime());
+    term.println(cmdStepper->getRunTime());
 
     term.println();
 
@@ -80,37 +82,37 @@ bool CmdInterface::getSummary()
     term.set_attribute(BT_NORMAL);
     term.print(F("  Start Time: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getTime(1));
+    term.println(cmdStepper->getTime(1));
 
     // Current time
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Time: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getTime(0));
+    term.println(cmdStepper->getTime(0));
 
     // Target Revolutions
     term.set_attribute(BT_NORMAL);
     term.print(F("  Target Revolutions: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getRevolutions(0));
+    term.println(cmdStepper->getRevolutions(0));
 
     // Current Revolutions
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Revolutions: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getRevolutions(1));
+    term.println(cmdStepper->getRevolutions(1));
 
     // Target Steps
     term.set_attribute(BT_NORMAL);
     term.print(F("  Target Steps: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getSteps(1));
+    term.println(cmdStepper->getSteps(0));
 
     // Current Steps
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Steps: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper.getSteps(0));
+    term.println(cmdStepper->getSteps(1));
 
     key = term.get_key();
     switch (key)
@@ -136,12 +138,12 @@ bool CmdInterface::setDistance()
 
   if (!strcasecmp(option, "-t"))
   {
-    cmdStepper.setDistance((double)dist, 0);
+    cmdStepper->setDistance((double)dist, 0);
     return true;
   }
   else if (!strcasecmp(option, "-c"))
   {
-    cmdStepper.setDistance((double)dist, 1);
+    cmdStepper->setDistance((double)dist, 1);
     return true;
   }
 

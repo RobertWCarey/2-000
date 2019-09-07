@@ -8,8 +8,8 @@
 static const uint8_t DIR_PIN = 1 << PORTD2;
 static const uint8_t STEP_PIN = 1 << PORTD3;
 static const uint8_t SLEEP_PIN = 1 << PORTD4;
-static const uint8_t M0_PIN = 1 << PORTD5;
-static const uint8_t M1_PIN = 1 << PORTD6;
+static const uint8_t M0_PIN = 1 << PORTD6;
+static const uint8_t M1_PIN = 1 << PORTD5;
 
 // Define commands for setting DRV8834 pins
 #define DIR_PIN_HIGH PORTD |= DIR_PIN
