@@ -6,7 +6,6 @@
 CmdInterface::CmdInterface(Stepper *stepper)
 {
   cmdStepper = stepper;
-  // return true;
 }
 
 int CmdInterface::readNumber()
@@ -140,7 +139,6 @@ bool CmdInterface::setDistance()
 {
   char *option = readWord();
   int dist = readNumber();
-  // char *unit = readWord();
 
   if (!strcasecmp(option, "-t"))
   {
