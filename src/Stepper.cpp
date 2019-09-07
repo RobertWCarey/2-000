@@ -14,10 +14,8 @@ bool Stepper::init(float sampleRate)
   OCR1A = 16000000.0f / sampleRate; // compare match register for IRQ with selected samplerate
   TCCR1B |= (1 << WGM12);           // CTC mode
   TCCR1B |= (1 << CS10);            // no prescaler
-  // TIMSK1 |= (1 << OCIE1A);          // enable timer compare interrupt
-  interrupts(); // enable all interrupts
-
-  Serial.print(PORTD, BIN);
+  TIMSK1 &= ~(1 << OCIE1A);         // Disable timer compare interrupt
+  interrupts();                     // enable all interrupts
 
   return setMicroSteps(microStep) && setDirection(direction);
 }
