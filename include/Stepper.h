@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include "Arduino.h"
 
-const double distPerRev PROGMEM = 0.008; // Distance in m
+// const double distPerRev PROGMEM = 0.008; // Distance in m
+const double distPerRev PROGMEM = 0.095238; // Distance in um
 
 class Stepper
 {
@@ -20,6 +21,7 @@ private:
   double targetDistance = 0; // Stored in um
   bool stepStatus = 0;
   unsigned long startTime = 0;
+  unsigned long currTime = 0;
 
 public:
   // All pins have to be on PORTD

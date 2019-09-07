@@ -1,4 +1,5 @@
 #include "Stepper.h"
+#include "pinDef.h"
 
 bool Stepper::init(float sampleRate)
 {
@@ -13,8 +14,10 @@ bool Stepper::init(float sampleRate)
   OCR1A = 16000000.0f / sampleRate; // compare match register for IRQ with selected samplerate
   TCCR1B |= (1 << WGM12);           // CTC mode
   TCCR1B |= (1 << CS10);            // no prescaler
-  TIMSK1 |= (1 << OCIE1A);          // enable timer compare interrupt
-  interrupts();                     // enable all interrupts
+  // TIMSK1 |= (1 << OCIE1A);          // enable timer compare interrupt
+  interrupts(); // enable all interrupts
+
+  Serial.print(PORTD, BIN);
 
   return setMicroSteps(microStep) && setDirection(direction);
 }
@@ -23,6 +26,16 @@ void Stepper::step()
 {
   if ((sleepPin & PORTD) && (targetSteps - currSteps))
   {
+    static bool temp = 1;
+
+    if (temp)
+    {
+      delay(1000);
+      Serial.println(PORTD, BIN);
+      temp = 0;
+    }
+
+    // Serial.print("");
     if (stepStatus)
     {
       PORTD |= stepPin;
@@ -33,6 +46,7 @@ void Stepper::step()
       currSteps++;
     }
     stepStatus = !stepStatus;
+    currTime = millis();
   }
 }
 
@@ -47,10 +61,10 @@ uint32_t Stepper::getSteps(bool select)
 double Stepper::getRevolutions(bool select)
 {
   if (select)
-    // Current revolutions
+    // Current stepper motor revolutions
     return currSteps / ((double)stepPerRev * (double)microStep);
   else
-    // Target Revolutions
+    // Target stepper motor Revolutions
     return targetSteps / ((double)stepPerRev * (double)microStep);
 }
 
@@ -76,7 +90,7 @@ unsigned long Stepper::getTime(bool select)
 unsigned long Stepper::getRunTime()
 {
   if (startTime)
-    return millis() - startTime;
+    return (currTime - startTime) / 1000;
   else
     return 0;
 }
@@ -105,6 +119,7 @@ bool Stepper::setDistance(double dist, bool select)
 bool Stepper::setStartTime()
 {
   startTime = millis();
+  currTime = millis();
   return true;
 }
 
