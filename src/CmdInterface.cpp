@@ -34,11 +34,13 @@ bool CmdInterface::startCommand()
   {
     cmdStepper->setStartTime();
     SLEEP_PIN_HIGH;
+    TIMSK1 |= (1 << OCIE1A);
     return true;
   }
   else if (!firstOperand)
   {
     SLEEP_PIN_LOW;
+    TIMSK1 &= ~(1 << OCIE1A);
     return true;
   }
   return false;
