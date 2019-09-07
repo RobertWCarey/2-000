@@ -6,7 +6,6 @@
 CmdInterface::CmdInterface(Stepper *stepper)
 {
   cmdStepper = stepper;
-  // return true;
 }
 
 int CmdInterface::readNumber()
@@ -35,12 +34,14 @@ bool CmdInterface::startCommand()
     cmdStepper->setStartTime();
     SLEEP_PIN_HIGH;
     TIMSK1 |= (1 << OCIE1A);
+    Serial.println(F(">   Started"));
     return true;
   }
   else if (!firstOperand)
   {
     SLEEP_PIN_LOW;
     TIMSK1 &= ~(1 << OCIE1A);
+    Serial.println(F(">   Stopped"));
     return true;
   }
   return false;
@@ -61,20 +62,22 @@ bool CmdInterface::getSummary()
     term.set_attribute(BT_NORMAL);
     term.print(F("  Target Distance: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getDistance(0));
+    term.print(cmdStepper->getDistance(0));
+    term.println(F(" um"));
 
     // Distance Covered
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Distance: "));
     term.set_attribute(BT_BLINK);
     term.print(cmdStepper->getDistance(1));
-    term.println(" m");
+    term.println(F(" um"));
 
     // Current Runtime
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Runtime: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getRunTime());
+    term.print(cmdStepper->getRunTime());
+    term.println(F(" s"));
 
     term.println();
 
@@ -82,13 +85,15 @@ bool CmdInterface::getSummary()
     term.set_attribute(BT_NORMAL);
     term.print(F("  Start Time: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getTime(1));
+    term.print(cmdStepper->getTime(1));
+    term.println(F(" ms"));
 
     // Current time
     term.set_attribute(BT_NORMAL);
     term.print(F("  Current Time: "));
     term.set_attribute(BT_BLINK);
-    term.println(cmdStepper->getTime(0));
+    term.print(cmdStepper->getTime(0));
+    term.println(F(" ms"));
 
     // Target Revolutions
     term.set_attribute(BT_NORMAL);
@@ -134,16 +139,19 @@ bool CmdInterface::setDistance()
 {
   char *option = readWord();
   int dist = readNumber();
-  // char *unit = readWord();
 
   if (!strcasecmp(option, "-t"))
   {
     cmdStepper->setDistance((double)dist, 0);
+    Serial.print(F(">   Target Distance: "));
+    Serial.println(cmdStepper->getDistance(0));
     return true;
   }
   else if (!strcasecmp(option, "-c"))
   {
     cmdStepper->setDistance((double)dist, 1);
+    Serial.print(F(">   Current Distance: "));
+    Serial.println(cmdStepper->getDistance(1));
     return true;
   }
 
@@ -156,9 +164,7 @@ void CmdInterface::doMyCommand()
 
   if (!strcasecmp(ptrToCommandName, startCmd.cmd.c_str()))
   {
-    if (startCommand())
-      Serial.println(F(">    The start setting was set"));
-    else
+    if (!startCommand())
       Serial.println(F(">    The start setting was not set"));
   }
   else if (!strcasecmp(ptrToCommandName, helpCmd.cmd.c_str()))
@@ -174,9 +180,7 @@ void CmdInterface::doMyCommand()
   }
   else if (!strcasecmp(ptrToCommandName, setDisCmd.cmd.c_str()))
   {
-    if (setDistance())
-      Serial.println(F(">   The distance setting was set"));
-    else
+    if (!setDistance())
       Serial.println(F(">   The distance setting was not set"));
   }
   else
