@@ -18,8 +18,6 @@ Stepper drv8834;
 
 CmdInterface drv8834Cmd(&drv8834);
 
-// BasicTerm term(&Serial);
-
 void setup()
 {
   // Start Serial Port
@@ -39,8 +37,8 @@ void setup()
   drv8834.init(sampleRate);
 
   lcd.init();
-  lcd.backlight();     //light this binch up
-  lcd.setCursor(0, 0); //prints on first/top line idiot
+  lcd.backlight();
+  lcd.setCursor(0, 0);
   lcd.print(F("Cell Stretcher"));
   lcd.setCursor(0, 1);
   lcd.print(F("SW: V"));
