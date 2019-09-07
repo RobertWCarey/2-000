@@ -2,7 +2,6 @@
 #include "pinDef.h" // Call after Arduino.h
 #include "CmdInterface.h"
 #include "Stepper.h"
-#include "BasicTerm.h"
 
 // UART Baud rate
 static const uint32_t BAUD_RATE = 115200;
@@ -45,13 +44,5 @@ ISR(TIMER1_COMPA_vect)
 
 void loop()
 {
-  // revolutions = steps / 1600;
-  // distance = revolutions * 0.095;
-
-  // term.position(0, 0);
-  // term.set_attribute(BT_NORMAL);
-  // term.print(F("Current millis: "));
-  // term.print(millis());
-
   drv8834Cmd.getCommandLineFromSerialPort(); //global CommandLine is defined in CommandLine.h
 }
