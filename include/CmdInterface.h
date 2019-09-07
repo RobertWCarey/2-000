@@ -14,7 +14,7 @@
 #define NULLCHAR '\0'
 #define SPACE ' '
 #define COMMAND_BUFFER_LENGTH 25 //length of serial buffer for incoming commands
-#define MAX_NUM_PARAMS 5
+#define MAX_NUM_PARAMS 2
 
 typedef struct
 {
@@ -25,10 +25,8 @@ typedef struct
 
 const Command startCmd PROGMEM = {"start", "Enables/Disables Stepper Driver", {"'1' to enable stepper", "'0' to disable stepper"}};
 const Command helpCmd PROGMEM = {"-h", "Displays a summary of commands", {"NULL"}};
-const Command getSummaryCmd PROGMEM = {"summary", "Displays a summary of current state", {"'-e' extended summary"}};
+const Command getSummaryCmd PROGMEM = {"summary", "Displays a summary of current state", {"'SPACE' to exit summary", "'ctrl + L' to redraw summary"}};
 const Command setDisCmd PROGMEM = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist"}};
-
-// static Command setDisCmd = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist", "'xx um' set distance in micro-meters", "'xx mm' set distance in mili-meters"}};
 
 static const char *const delimiters PROGMEM = ", \n"; // commands can be separated by return, space or comma
 
