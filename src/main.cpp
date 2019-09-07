@@ -41,11 +41,11 @@ void setup()
   lcd.init();
   lcd.backlight();     //light this binch up
   lcd.setCursor(0, 0); //prints on first/top line idiot
-  lcd.print("Cell Stretcher");
+  lcd.print(F("Cell Stretcher"));
   lcd.setCursor(0, 1);
-  lcd.print("SW:  ");
+  lcd.print(F("SW: V"));
   lcd.print(SW_VERSION);
-  // delay(2000);
+  delay(2000);
   lcd.clear();
 }
 
@@ -65,10 +65,10 @@ void Print2(int n)
 void updateLCD()
 {
   lcd.setCursor(0, 0);
-  lcd.print("Distance:");
+  lcd.print(F("Distance:"));
   lcd.print(drv8834.getDistance(1));
   lcd.setCursor(0, 1);
-  lcd.print("RunTime:");
+  lcd.print(F("RunTime:"));
   unsigned long Now = drv8834.getRunTime();
   int Seconds = Now % 60;
   int Minutes = (Now / 60) % 60;
