@@ -1,0 +1,55 @@
+\hypertarget{_command_line_8h}{}\doxysection{include/\+Command\+Line.h File Reference}
+\label{_command_line_8h}\index{include/CommandLine.h@{include/CommandLine.h}}
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Arduino.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}pin\+Def.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bfseries print2}(x,  y)~(Serial.\+print(x), Serial.\+println(y))
+\item 
+\#define {\bfseries print3}(x,  y,  z)~(Serial.\+print(x), Serial.\+print(y), Serial.\+println(z))
+\item 
+\#define {\bfseries CR}~\textquotesingle{}\textbackslash{}r\textquotesingle{}
+\item 
+\#define {\bfseries LF}~\textquotesingle{}\textbackslash{}n\textquotesingle{}
+\item 
+\#define {\bfseries BS}~\textquotesingle{}\textbackslash{}b\textquotesingle{}
+\item 
+\#define {\bfseries N\+U\+L\+L\+C\+H\+AR}~\textquotesingle{}\textbackslash{}0\textquotesingle{}
+\item 
+\#define {\bfseries S\+P\+A\+CE}~\textquotesingle{} \textquotesingle{}
+\item 
+\#define {\bfseries C\+O\+M\+M\+A\+N\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}~25
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries read\+Number} ()
+\item 
+char $\ast$ \mbox{\hyperlink{group___cmd_prot__module_ga79ac1b2858fc10391e4bfa00755c5072}{read\+Word}} ()
+\item 
+void {\bfseries null\+Command} (char $\ast$ptr\+To\+Command\+Name)
+\item 
+bool \mbox{\hyperlink{group___cmd_prot__module_gab81c3fc4938498af731bae04287db22e}{sleep\+Command}} ()
+\begin{DoxyCompactList}\small\item\em Excutes the command to turn the stepper contoller sleep pin high/low. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___cmd_prot__module_ga26b49491f792f162cf2c80c1fb60f43c}{Do\+My\+Command}} (char $\ast$command\+Line, double $\ast$distance)
+\begin{DoxyCompactList}\small\item\em Parses command. \end{DoxyCompactList}\item 
+bool {\bfseries get\+Command\+Line\+From\+Serial\+Port} (char $\ast$command\+Line)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Robert Carey (\href{mailto:rob_carey_1@hotmail.com}{\texttt{ rob\+\_\+carey\+\_\+1@hotmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2019-\/08-\/22
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2019 
+\end{DoxyCopyright}
