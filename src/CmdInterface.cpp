@@ -47,6 +47,12 @@ bool CmdInterface::startCommand()
   return false;
 }
 
+bool CmdInterface::resetCommand()
+{
+
+  return true;
+}
+
 bool CmdInterface::getSummary()
 {
   uint16_t key = 0;
@@ -173,6 +179,7 @@ void CmdInterface::doMyCommand()
     printHelpCmd(startCmd.cmd, startCmd.description, startCmd.params);
     printHelpCmd(getSummaryCmd.cmd, getSummaryCmd.description, getSummaryCmd.params);
     printHelpCmd(setDisCmd.cmd, setDisCmd.description, setDisCmd.params);
+    printHelpCmd(resetCmd.cmd, resetCmd.description, resetCmd.params);
   }
   else if (!strcasecmp(ptrToCommandName, getSummaryCmd.cmd.c_str()))
   {
@@ -182,6 +189,11 @@ void CmdInterface::doMyCommand()
   {
     if (!setDistance())
       Serial.println(F(">   The distance setting was not set"));
+  }
+  else if (!strcasecmp(ptrToCommandName, resetCmd.cmd.c_str()))
+  {
+    if (!resetCommand())
+      Serial.println(F(">   The settings were not reset"));
   }
   else
   {
