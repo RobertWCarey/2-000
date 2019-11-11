@@ -78,10 +78,10 @@ unsigned long Stepper::getTime(bool select)
 
 unsigned long Stepper::getRunTime()
 {
-  if (startTime)
-    return (currTime - startTime) / 1000;
-  else
-    return 0;
+
+  runTime = (currTime - startTime);
+
+  return runTime / 1000;
 }
 
 bool Stepper::setDistance(double dist, bool select)
@@ -107,8 +107,19 @@ bool Stepper::setDistance(double dist, bool select)
 
 bool Stepper::setStartTime()
 {
-  startTime = millis();
   currTime = millis();
+  Serial.println(startTime);
+  if (!startTime)
+  {
+    Serial.println(startTime);
+    startTime = millis();
+  }
+  else
+  {
+    startTime = currTime - runTime;
+    Serial.println(startTime);
+  }
+
   return true;
 }
 
@@ -124,15 +135,17 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
   switch (microSteps)
   {
   case 1:
-    PORTD |= ~m0Pin | ~m1Pin;
+    PORTD &= ~m0Pin | ~m1Pin;
     break;
 
   case 2:
-    PORTD |= m0Pin | ~m1Pin;
+    PORTD |= m0Pin;
+    PORTD &= ~m1Pin;
     break;
 
   case 8:
-    PORTD |= ~m0Pin | m1Pin;
+    PORTD &= ~m0Pin;
+    PORTD |= m1Pin;
     break;
 
   case 16:
@@ -146,12 +159,27 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
 
   return true;
 };
+
 bool Stepper::setDirection(bool dir)
 {
   if (dir)
     PORTD |= dirPin;
   else
-    PORTD |= ~dirPin;
+    PORTD &= ~dirPin;
+
+  return true;
+}
+
+bool Stepper::reset()
+{
+  currSteps = 0;
+  targetSteps = 0;
+  currDistance = 0;   // Stored in um
+  targetDistance = 0; // Stored in um
+  stepStatus = 0;
+  startTime = 0;
+  currTime = 0;
+  runTime = 0;
 
   return true;
 }

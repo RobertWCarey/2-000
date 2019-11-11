@@ -22,6 +22,7 @@ private:
   bool stepStatus = 0;
   unsigned long startTime = 0;
   unsigned long currTime = 0;
+  unsigned long runTime = 0;
 
 public:
   // All pins have to be on PORTD
@@ -45,6 +46,7 @@ public:
   bool setTargetDistance(double distance);
   bool setMicroSteps(uint8_t microSteps);
   bool setDirection(bool dir);
+  bool reset();
 };
 
 #endif // stepper_h

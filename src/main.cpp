@@ -4,7 +4,7 @@
 #include "Stepper.h"
 #include "LiquidCrystal_I2C.h"
 
-#define SW_VERSION 1.00
+#define SW_VERSION 110
 
 // UART Baud rate
 static const uint32_t BAUD_RATE = 115200;
@@ -35,6 +35,7 @@ void setup()
   // Initilise the stepper
   // Ensure configuration has been set
   drv8834.init(sampleRate);
+  drv8834.setDirection(0);
 
   lcd.init();
   lcd.backlight();

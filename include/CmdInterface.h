@@ -27,6 +27,7 @@ const Command startCmd PROGMEM = {"start", "Enables/Disables Stepper Driver", {"
 const Command helpCmd PROGMEM = {"-h", "Displays a summary of commands", {"NULL"}};
 const Command getSummaryCmd PROGMEM = {"summary", "Displays a summary of current state", {"'SPACE' to exit summary", "'ctrl + L' to redraw summary"}};
 const Command setDisCmd PROGMEM = {"setDist", "Set current or target disatance", {"'-c' select current dist", "'-t' select target dist"}};
+const Command resetCmd PROGMEM = {"reset", "Reset to bootup values", {"none"}};
 
 static const char *const delimiters PROGMEM = ", \n"; // commands can be separated by return, space or comma
 
@@ -40,6 +41,7 @@ class CmdInterface
 private:
   void doMyCommand();
   bool startCommand();
+  bool resetCommand();
   bool getSummary();
   bool setDistance();
   char *readWord();
