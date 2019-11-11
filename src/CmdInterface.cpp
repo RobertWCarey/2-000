@@ -49,8 +49,7 @@ bool CmdInterface::startCommand()
 
 bool CmdInterface::resetCommand()
 {
-
-  return true;
+  return cmdStepper->reset();
 }
 
 bool CmdInterface::getSummary()

@@ -46,6 +46,7 @@ public:
   bool setTargetDistance(double distance);
   bool setMicroSteps(uint8_t microSteps);
   bool setDirection(bool dir);
+  bool reset();
 };
 
 #endif // stepper_h

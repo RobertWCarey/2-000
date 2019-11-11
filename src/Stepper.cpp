@@ -159,12 +159,27 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
 
   return true;
 };
+
 bool Stepper::setDirection(bool dir)
 {
   if (dir)
     PORTD |= dirPin;
   else
     PORTD &= ~dirPin;
+
+  return true;
+}
+
+bool Stepper::reset()
+{
+  currSteps = 0;
+  targetSteps = 0;
+  currDistance = 0;   // Stored in um
+  targetDistance = 0; // Stored in um
+  stepStatus = 0;
+  startTime = 0;
+  currTime = 0;
+  runTime = 0;
 
   return true;
 }
