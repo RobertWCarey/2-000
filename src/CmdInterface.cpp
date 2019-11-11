@@ -33,14 +33,14 @@ bool CmdInterface::startCommand()
   {
     cmdStepper->setStartTime();
     SLEEP_PIN_HIGH;
-    TIMSK1 |= (1 << OCIE1A);
+    TIMSK1 |= (1 << OCIE1A); // Enable the timer 1 interrupt
     Serial.println(F(">   Started"));
     return true;
   }
   else if (!firstOperand)
   {
     SLEEP_PIN_LOW;
-    TIMSK1 &= ~(1 << OCIE1A);
+    TIMSK1 &= ~(1 << OCIE1A); // Disable the timer 1 interrupt
     Serial.println(F(">   Stopped"));
     return true;
   }

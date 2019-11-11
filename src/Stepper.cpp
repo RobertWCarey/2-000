@@ -78,10 +78,10 @@ unsigned long Stepper::getTime(bool select)
 
 unsigned long Stepper::getRunTime()
 {
-  if (startTime)
-    return (currTime - startTime) / 1000;
-  else
-    return 0;
+
+  runTime = (currTime - startTime);
+
+  return runTime / 1000;
 }
 
 bool Stepper::setDistance(double dist, bool select)
@@ -107,8 +107,19 @@ bool Stepper::setDistance(double dist, bool select)
 
 bool Stepper::setStartTime()
 {
-  startTime = millis();
   currTime = millis();
+  Serial.println(startTime);
+  if (!startTime)
+  {
+    Serial.println(startTime);
+    startTime = millis();
+  }
+  else
+  {
+    startTime = currTime - runTime;
+    Serial.println(startTime);
+  }
+
   return true;
 }
 
