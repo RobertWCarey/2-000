@@ -124,15 +124,17 @@ bool Stepper::setMicroSteps(uint8_t microSteps)
   switch (microSteps)
   {
   case 1:
-    PORTD |= ~m0Pin | ~m1Pin;
+    PORTD &= ~m0Pin | ~m1Pin;
     break;
 
   case 2:
-    PORTD |= m0Pin | ~m1Pin;
+    PORTD |= m0Pin;
+    PORTD &= ~m1Pin;
     break;
 
   case 8:
-    PORTD |= ~m0Pin | m1Pin;
+    PORTD &= ~m0Pin;
+    PORTD |= m1Pin;
     break;
 
   case 16:
@@ -151,7 +153,7 @@ bool Stepper::setDirection(bool dir)
   if (dir)
     PORTD |= dirPin;
   else
-    PORTD |= ~dirPin;
+    PORTD &= ~dirPin;
 
   return true;
 }
