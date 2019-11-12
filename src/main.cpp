@@ -4,7 +4,7 @@
 #include "Stepper.h"
 #include "LiquidCrystal_I2C.h"
 
-#define SW_VERSION 110
+#define SW_VERSION 111
 
 // UART Baud rate
 static const uint32_t BAUD_RATE = 115200;
