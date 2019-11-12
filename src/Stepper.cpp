@@ -108,16 +108,13 @@ bool Stepper::setDistance(double dist, bool select)
 bool Stepper::setStartTime()
 {
   currTime = millis();
-  Serial.println(startTime);
   if (!startTime)
   {
-    Serial.println(startTime);
     startTime = millis();
   }
   else
   {
     startTime = currTime - runTime;
-    Serial.println(startTime);
   }
 
   return true;
